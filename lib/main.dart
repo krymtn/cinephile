@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:cinephileapp/core/preferences/secure_preference_store.dart';
+import 'package:cinephileapp/core/preferences/preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Initialize preferences
+  final secureStore = SecurePreferenceStore(
+    const FlutterSecureStorage(),
+  );
+  final preferences = Preferences(secureStore);
+
+  debugPrint('main: Preferences initialized successfully');
+
+  runApp(MyApp(preferences: preferences));
+  
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Preferences preferences;
+  const MyApp({super.key, required this.preferences});
 
   // This widget is the root of your application.
   @override
