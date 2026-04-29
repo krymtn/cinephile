@@ -7,11 +7,8 @@ enum AppEnvironment {
 
   final String value;
 
-  static AppEnvironment fromValue(String raw) =>
-      AppEnvironment.values.firstWhere(
-        (e) => e.value == raw,
-        orElse: () => AppEnvironment.dev,
-      );
+  static AppEnvironment fromValue(String raw) => AppEnvironment.values
+      .firstWhere((e) => e.value == raw, orElse: () => AppEnvironment.dev);
 }
 
 extension AppEnvironmentX on AppEnvironment {
