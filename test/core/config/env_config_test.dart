@@ -20,10 +20,7 @@ void main() {
     });
 
     test('apiBaseUrl uses default when not overridden', () {
-      expect(
-        EnvConfig.apiBaseUrl,
-        'https://api.themoviedb.org/3',
-      );
+      expect(EnvConfig.apiBaseUrl, 'https://api.themoviedb.org/3');
     });
 
     test('tmdbBearerToken defaults to empty string', () {

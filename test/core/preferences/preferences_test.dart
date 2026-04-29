@@ -61,7 +61,7 @@ void main() {
 
     test('write saves the value and read retrieves it', () async {
       await preferences.write(PreferenceKeys.themeMode, 'dark');
-      
+
       final result = await preferences.read(PreferenceKeys.themeMode);
       expect(result, equals('dark'));
     });
@@ -73,7 +73,7 @@ void main() {
 
       // Delete the value
       await preferences.delete(PreferenceKeys.themeMode);
-      
+
       // Verify it's gone
       final result = await preferences.read(PreferenceKeys.themeMode);
       expect(result, isNull);

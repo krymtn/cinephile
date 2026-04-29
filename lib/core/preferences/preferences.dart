@@ -13,6 +13,7 @@ final class Preferences {
       return null;
     }
   }
+
   Future<void> write(PreferenceKeys key, String value) async {
     try {
       await _preference.write(key, value);
@@ -20,6 +21,7 @@ final class Preferences {
       // log if needed
     }
   }
+
   Future<void> delete(PreferenceKeys key) async {
     try {
       await _preference.delete(key);

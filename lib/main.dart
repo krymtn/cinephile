@@ -9,9 +9,7 @@ import 'package:cinephileapp/core/config/env_config.dart';
 
 void main() {
   // Initialize preferences
-  final secureStore = SecurePreferenceStore(
-    const FlutterSecureStorage(),
-  );
+  final secureStore = SecurePreferenceStore(const FlutterSecureStorage());
   final preferences = Preferences(secureStore);
 
   debugPrint('main: Preferences initialized successfully');
@@ -45,21 +43,18 @@ void main() {
 
   // Initialize NetworkClient
   final networkClient = NetworkClient(dio);
-  
+
   debugPrint('main: NetworkClient initialized successfully');
 
-  runApp(MyApp(
-    preferences: preferences,
-    networkClient: networkClient,
-  ));
+  runApp(MyApp(preferences: preferences, networkClient: networkClient));
 }
 
 class MyApp extends StatelessWidget {
   final Preferences preferences;
   final NetworkClient networkClient;
-  
+
   const MyApp({
-    super.key, 
+    super.key,
     required this.preferences,
     required this.networkClient,
   });
