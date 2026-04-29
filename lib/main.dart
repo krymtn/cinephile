@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cinephileapp/core/preferences/secure_preference_store.dart';
 import 'package:cinephileapp/core/preferences/preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:cinephileapp/core/network/network_client.dart';
+import 'package:cinephileapp/core/config/env_config.dart';
 
 void main() {
   // Initialize preferences
@@ -12,13 +16,53 @@ void main() {
 
   debugPrint('main: Preferences initialized successfully');
 
-  runApp(MyApp(preferences: preferences));
+  // --- Initialize Network ---
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: EnvConfig.apiBaseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+      headers: {
+        'Content-Type': 'application/json',
+        if (EnvConfig.tmdbBearerToken.isNotEmpty)
+          'Authorization': 'Bearer ${EnvConfig.tmdbBearerToken}',
+      },
+    ),
+  );
+
+  // Add Logger Interceptor
+  dio.interceptors.add(
+    PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 90,
+    ),
+  );
+
+  // Initialize NetworkClient
+  final networkClient = NetworkClient(dio);
   
+  debugPrint('main: NetworkClient initialized successfully');
+
+  runApp(MyApp(
+    preferences: preferences,
+    networkClient: networkClient,
+  ));
 }
 
 class MyApp extends StatelessWidget {
   final Preferences preferences;
-  const MyApp({super.key, required this.preferences});
+  final NetworkClient networkClient;
+  
+  const MyApp({
+    super.key, 
+    required this.preferences,
+    required this.networkClient,
+  });
 
   // This widget is the root of your application.
   @override
