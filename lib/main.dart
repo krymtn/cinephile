@@ -14,6 +14,10 @@ void main() {
 
   debugPrint('main: Preferences initialized successfully');
 
+  debugPrint('env: ${EnvConfig.appEnv}');
+  debugPrint('apiBaseUrl: ${EnvConfig.apiBaseUrl}');
+  debugPrint('tmdbBearerToken: ${EnvConfig.tmdbBearerToken}');
+
   // --- Initialize Network ---
   final dio = Dio(
     BaseOptions(
