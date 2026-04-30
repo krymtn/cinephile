@@ -3,5 +3,7 @@
   "appTitle": "Cinephile",
   "homeTitle": "Home",
   "counterHint": "You have pushed the button this many times:",
-  "increment": "Increment"
+  "increment": "Increment",
+  "languageEnglish": "English",
+  "languageTurkish": "Turkish"
 }

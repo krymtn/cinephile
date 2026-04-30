@@ -19,4 +19,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get increment => 'Artır';
+
+  @override
+  String get languageEnglish => 'İngilizce';
+
+  @override
+  String get languageTurkish => 'Türkçe';
 }
