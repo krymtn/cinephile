@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:cinephileapp/core/extensions/build_context.dart';
 import 'package:cinephileapp/l10n/generated/app_localizations.dart';
 import 'package:cinephileapp/core/preferences/secure_preference_store.dart';
 import 'package:cinephileapp/core/preferences/preferences.dart';
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (context) => context.l10n.appTitle,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.homeTitle),
+        title: Text(context.l10n.homeTitle),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -141,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(AppLocalizations.of(context)!.counterHint),
+            Text(context.l10n.counterHint),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -151,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: AppLocalizations.of(context)!.increment,
+        tooltip: context.l10n.increment,
         child: const Icon(Icons.add),
       ),
     );
