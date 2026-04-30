@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cinephileapp/core/extensions/build_context.dart';
+import 'package:cinephileapp/core/extensions/language_locale.dart';
 import 'package:cinephileapp/l10n/generated/app_localizations.dart';
 import 'package:cinephileapp/core/preferences/secure_preference_store.dart';
 import 'package:cinephileapp/core/preferences/preferences.dart';
@@ -10,10 +11,14 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:cinephileapp/core/network/network_client.dart';
 import 'package:cinephileapp/core/config/env_config.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Initialize preferences
   final secureStore = SecurePreferenceStore(const FlutterSecureStorage());
   final preferences = Preferences(secureStore);
+
+  final languageCode = await preferences.readLanguageCodeWithDefault();
 
   debugPrint('main: Preferences initialized successfully');
 
@@ -53,23 +58,32 @@ void main() {
 
   debugPrint('main: NetworkClient initialized successfully');
 
-  runApp(MyApp(preferences: preferences, networkClient: networkClient));
+  runApp(
+    MyApp(
+      preferences: preferences,
+      networkClient: networkClient,
+      locale: languageCode.locale,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   final Preferences preferences;
   final NetworkClient networkClient;
+  final Locale locale;
 
   const MyApp({
     super.key,
     required this.preferences,
     required this.networkClient,
+    required this.locale,
   });
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

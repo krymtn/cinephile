@@ -45,6 +45,32 @@ class ErrorThrowingMockPreference implements PreferenceStore {
 }
 
 void main() {
+  group('PreferencesLanguageCodeX', () {
+    late MockPreference mockPreference;
+    late Preferences preferences;
+
+    setUp(() {
+      mockPreference = MockPreference();
+      preferences = Preferences(mockPreference);
+    });
+
+    test('readLanguageCodeWithDefault seeds en when key is missing', () async {
+      final code = await preferences.readLanguageCodeWithDefault();
+
+      expect(code, equals('en'));
+      expect(await preferences.read(PreferenceKeys.languageCode), equals('en'));
+    });
+
+    test('readLanguageCodeWithDefault returns stored value when set', () async {
+      await preferences.write(PreferenceKeys.languageCode, 'tr');
+
+      final code = await preferences.readLanguageCodeWithDefault();
+
+      expect(code, equals('tr'));
+      expect(await preferences.read(PreferenceKeys.languageCode), equals('tr'));
+    });
+  });
+
   group('Preferences', () {
     late MockPreference mockPreference;
     late Preferences preferences;
