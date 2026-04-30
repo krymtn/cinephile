@@ -1,10 +1,9 @@
-import 'package:sqflite/sqflite.dart';
 import '../../../../core/database/dao/base_dao.dart';
 import 'movie_dao_schema.dart';
 import '../models/movie_entity.dart';
 
 class MovieDao extends BaseDao<MovieEntity> {
-  MovieDao(Database db) : super(db);
+  MovieDao(super.db);
 
   @override
   String get tableName => MovieDaoSchema.tableName;

@@ -1,5 +1,4 @@
 import 'package:cinephileapp/features/movies/data/dao/movie_dao_schema.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 bool _sqfliteFfiInitialized = false;
