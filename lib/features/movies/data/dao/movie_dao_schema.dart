@@ -10,7 +10,8 @@ class MovieDaoSchema implements DaoSchema {
   static const String colOverview = 'overview';
   static const String colRating = 'rating';
 
-  static const String _createTableQuery = '''
+  static const String _createTableQuery =
+      '''
     CREATE TABLE $tableName (
       ${BaseColumns.id} TEXT PRIMARY KEY,
       $colTitle TEXT NOT NULL,

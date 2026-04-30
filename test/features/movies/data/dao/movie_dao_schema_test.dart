@@ -50,17 +50,14 @@ void main() {
       final now = DateTime.now().toIso8601String();
 
       await expectLater(
-        db.insert(
-          MovieDaoSchema.tableName,
-          {
-            BaseColumns.id: 'movie_456',
-            MovieDaoSchema.colOverview: 'No title',
-            MovieDaoSchema.colRating: 5.0,
-            BaseColumns.createdAt: now,
-            BaseColumns.updatedAt: now,
-            BaseColumns.syncStatus: 0,
-          },
-        ),
+        db.insert(MovieDaoSchema.tableName, {
+          BaseColumns.id: 'movie_456',
+          MovieDaoSchema.colOverview: 'No title',
+          MovieDaoSchema.colRating: 5.0,
+          BaseColumns.createdAt: now,
+          BaseColumns.updatedAt: now,
+          BaseColumns.syncStatus: 0,
+        }),
         throwsA(isA<DatabaseException>()),
       );
     });

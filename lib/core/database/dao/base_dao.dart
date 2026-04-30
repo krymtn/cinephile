@@ -53,11 +53,7 @@ abstract class BaseDao<T extends BaseEntity> {
 
   // Hard Delete (Used by the background sync process AFTER the server confirms deletion)
   Future<void> hardDelete(String id) async {
-    await db.delete(
-      tableName,
-      where: '${BaseColumns.id} = ?',
-      whereArgs: [id],
-    );
+    await db.delete(tableName, where: '${BaseColumns.id} = ?', whereArgs: [id]);
   }
 
   // Get all active (non-deleted) records
@@ -68,7 +64,7 @@ abstract class BaseDao<T extends BaseEntity> {
     );
     return maps.map((map) => fromMap(map)).toList();
   }
-  
+
   // Get all items modified after a certain date (useful for syncing)
   Future<List<T>> getModifiedSince(DateTime lastSyncTime) async {
     final List<Map<String, dynamic>> maps = await db.query(
@@ -80,7 +76,8 @@ abstract class BaseDao<T extends BaseEntity> {
   }
 
   // Standard offline-first tracking columns
-  static const String baseColumns = '''
+  static const String baseColumns =
+      '''
     ${BaseColumns.createdAt} TEXT NOT NULL,
     ${BaseColumns.updatedAt} TEXT NOT NULL,
     ${BaseColumns.deletedAt} TEXT,

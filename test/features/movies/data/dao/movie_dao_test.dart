@@ -71,23 +71,26 @@ void main() {
       expect(all.single.rating, 9.0);
     });
 
-    test('softDelete excludes row from getAll but keeps row in table', () async {
-      await dao.insert(sampleMovie());
+    test(
+      'softDelete excludes row from getAll but keeps row in table',
+      () async {
+        await dao.insert(sampleMovie());
 
-      await dao.softDelete('m1');
+        await dao.softDelete('m1');
 
-      expect(await dao.getAll(), isEmpty);
+        expect(await dao.getAll(), isEmpty);
 
-      final rows = await db.query(
-        MovieDaoSchema.tableName,
-        where: '${BaseColumns.id} = ?',
-        whereArgs: ['m1'],
-      );
-      expect(rows, hasLength(1));
-      expect(rows.single[BaseColumns.deletedAt], isNotNull);
-      expect(rows.single[BaseColumns.syncStatus], 3);
-      expect(rows.single[BaseColumns.syncId], isNotNull);
-    });
+        final rows = await db.query(
+          MovieDaoSchema.tableName,
+          where: '${BaseColumns.id} = ?',
+          whereArgs: ['m1'],
+        );
+        expect(rows, hasLength(1));
+        expect(rows.single[BaseColumns.deletedAt], isNotNull);
+        expect(rows.single[BaseColumns.syncStatus], 3);
+        expect(rows.single[BaseColumns.syncId], isNotNull);
+      },
+    );
 
     test('hardDelete removes row', () async {
       await dao.insert(sampleMovie());

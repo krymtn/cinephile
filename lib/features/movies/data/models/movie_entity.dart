@@ -54,7 +54,9 @@ class MovieEntity implements BaseEntity {
       rating: map[MovieDaoSchema.colRating] ?? 0.0,
       createdAt: DateTime.parse(map[BaseColumns.createdAt]),
       updatedAt: DateTime.parse(map[BaseColumns.updatedAt]),
-      deletedAt: map[BaseColumns.deletedAt] != null ? DateTime.parse(map[BaseColumns.deletedAt]) : null,
+      deletedAt: map[BaseColumns.deletedAt] != null
+          ? DateTime.parse(map[BaseColumns.deletedAt])
+          : null,
       syncId: map[BaseColumns.syncId],
       syncStatus: map[BaseColumns.syncStatus],
     );
