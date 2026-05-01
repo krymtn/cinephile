@@ -19,4 +19,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get increment => 'Increment';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageTurkish => 'Turkish';
 }

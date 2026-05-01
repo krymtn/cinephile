@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:cinephileapp/core/extensions/build_context.dart';
-import 'package:cinephileapp/l10n/generated/app_localizations.dart';
-import 'package:cinephileapp/core/preferences/secure_preference_store.dart';
-import 'package:cinephileapp/core/preferences/preferences.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:cinephileapp/core/network/network_client.dart';
-import 'package:cinephileapp/core/config/env_config.dart';
 
-void main() {
-  // Initialize preferences
+import 'core/config/env_config.dart';
+import 'core/extensions/build_context.dart';
+import 'core/locale/locale_cubit.dart';
+import 'core/locale/preferences_locale_repository.dart';
+import 'core/locale/use_cases/load_app_locale.dart';
+import 'core/locale/use_cases/set_app_locale.dart';
+import 'core/network/network_client.dart';
+import 'core/preferences/preferences.dart';
+import 'core/preferences/secure_preference_store.dart';
+import 'l10n/generated/app_localizations.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final secureStore = SecurePreferenceStore(const FlutterSecureStorage());
   final preferences = Preferences(secureStore);
+
+  final localeRepository = PreferencesLocaleRepository(preferences);
+  final loadAppLocale = LoadAppLocale(localeRepository);
+  final setAppLocale = SetAppLocale(localeRepository);
+  final initialLocale = await loadAppLocale.invoke(null);
 
   debugPrint('main: Preferences initialized successfully');
 
@@ -21,7 +33,6 @@ void main() {
   debugPrint('apiBaseUrl: ${EnvConfig.apiBaseUrl}');
   debugPrint('tmdbBearerToken: ${EnvConfig.tmdbBearerToken}');
 
-  // --- Initialize Network ---
   final dio = Dio(
     BaseOptions(
       baseUrl: EnvConfig.apiBaseUrl,
@@ -35,7 +46,6 @@ void main() {
     ),
   );
 
-  // Add Logger Interceptor
   dio.interceptors.add(
     PrettyDioLogger(
       requestHeader: true,
@@ -48,40 +58,51 @@ void main() {
     ),
   );
 
-  // Initialize NetworkClient
   final networkClient = NetworkClient(dio);
 
   debugPrint('main: NetworkClient initialized successfully');
 
-  runApp(MyApp(preferences: preferences, networkClient: networkClient));
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<Preferences>.value(value: preferences),
+        RepositoryProvider<NetworkClient>.value(value: networkClient),
+      ],
+      child: BlocProvider<LocaleCubit>(
+        create: (_) => LocaleCubit(
+          loadAppLocale: loadAppLocale,
+          setAppLocale: setAppLocale,
+          initialLocale: initialLocale,
+        ),
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final Preferences preferences;
-  final NetworkClient networkClient;
+  const MyApp({super.key});
 
-  const MyApp({
-    super.key,
-    required this.preferences,
-    required this.networkClient,
-  });
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateTitle: (context) => context.l10n.appTitle,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(),
+    return BlocBuilder<LocaleCubit, Locale>(
+      builder: (context, locale) {
+        return MaterialApp(
+          locale: locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          onGenerateTitle: (context) => context.l10n.appTitle,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          ),
+          home: const MyHomePage(),
+        );
+      },
     );
   }
 }
@@ -98,48 +119,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(context.l10n.homeTitle),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.language_outlined),
+            onSelected: (code) => context.localeCubit.setLanguage(code),
+            itemBuilder: (menuContext) => [
+              PopupMenuItem(
+                value: 'en',
+                child: Text(menuContext.l10n.languageEnglish),
+              ),
+              PopupMenuItem(
+                value: 'tr',
+                child: Text(menuContext.l10n.languageTurkish),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(context.l10n.counterHint),

@@ -121,6 +121,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get increment;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// No description provided for @languageTurkish.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get languageTurkish;
 }
 
 class _AppLocalizationsDelegate
