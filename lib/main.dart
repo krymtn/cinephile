@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'package:cinephileapp/core/extensions/build_context.dart';
-import 'package:cinephileapp/core/locale/locale_cubit.dart';
-import 'package:cinephileapp/core/locale/preferences_locale_repository.dart';
-import 'package:cinephileapp/core/preferences/preferences.dart';
-import 'package:cinephileapp/core/preferences/secure_preference_store.dart';
-import 'package:cinephileapp/l10n/generated/app_localizations.dart';
-import 'package:cinephileapp/core/config/env_config.dart';
-import 'package:cinephileapp/core/network/network_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
+import 'core/config/env_config.dart';
+import 'core/extensions/build_context.dart';
+import 'core/locale/locale_cubit.dart';
+import 'core/locale/preferences_locale_repository.dart';
+import 'core/locale/use_cases/load_app_locale.dart';
+import 'core/locale/use_cases/set_app_locale.dart';
+import 'core/network/network_client.dart';
+import 'core/preferences/preferences.dart';
+import 'core/preferences/secure_preference_store.dart';
+import 'l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +23,9 @@ Future<void> main() async {
   final preferences = Preferences(secureStore);
 
   final localeRepository = PreferencesLocaleRepository(preferences);
-  final initialLocale = await localeRepository.loadLocale();
+  final loadAppLocale = LoadAppLocale(localeRepository);
+  final setAppLocale = SetAppLocale(localeRepository);
+  final initialLocale = await loadAppLocale.invoke(null);
 
   debugPrint('main: Preferences initialized successfully');
 
@@ -65,7 +69,11 @@ Future<void> main() async {
         RepositoryProvider<NetworkClient>.value(value: networkClient),
       ],
       child: BlocProvider<LocaleCubit>(
-        create: (_) => LocaleCubit(localeRepository, initialLocale),
+        create: (_) => LocaleCubit(
+          loadAppLocale: loadAppLocale,
+          setAppLocale: setAppLocale,
+          initialLocale: initialLocale,
+        ),
         child: const MyApp(),
       ),
     ),
