@@ -5,5 +5,9 @@
   "counterHint": "Düğmeye şu kadar kez bastınız:",
   "increment": "Artır",
   "languageEnglish": "İngilizce",
-  "languageTurkish": "Türkçe"
+  "languageTurkish": "Türkçe",
+  "themeAppearance": "Görünüm",
+  "themeSystem": "Sistem",
+  "themeLight": "Açık",
+  "themeDark": "Koyu"
 }

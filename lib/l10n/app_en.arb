@@ -5,5 +5,9 @@
   "counterHint": "You have pushed the button this many times:",
   "increment": "Increment",
   "languageEnglish": "English",
-  "languageTurkish": "Turkish"
+  "languageTurkish": "Turkish",
+  "themeAppearance": "Theme",
+  "themeSystem": "System default",
+  "themeLight": "Light",
+  "themeDark": "Dark"
 }
