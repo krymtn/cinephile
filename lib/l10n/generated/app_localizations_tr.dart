@@ -37,4 +37,40 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get themeDark => 'Koyu';
+
+  @override
+  String get navMovies => 'Filmler';
+
+  @override
+  String get navSearch => 'Arama';
+
+  @override
+  String get navMyList => 'Listem';
+
+  @override
+  String get settingsTitle => 'Ayarlar';
+
+  @override
+  String get settingsSectionAppearance => 'GÖRÜNÜM';
+
+  @override
+  String get settingsSectionLanguage => 'DİL';
+
+  @override
+  String get settingsThemeDarkSubtitle => 'Her zaman koyu arayüz.';
+
+  @override
+  String get settingsThemeLightSubtitle => 'Her zaman açık arayüz.';
+
+  @override
+  String get settingsThemeSystemSubtitle => 'Cihaz ayarına uy.';
+
+  @override
+  String get settingsCloseSheet => 'Kapat';
+
+  @override
+  String get settingsLangCodeEn => 'EN';
+
+  @override
+  String get settingsLangCodeTr => 'TR';
 }

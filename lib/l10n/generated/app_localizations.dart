@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @themeSystem.
   ///
   /// In en, this message translates to:
-  /// **'System default'**
+  /// **'System'**
   String get themeSystem;
 
   /// No description provided for @themeLight.
@@ -157,6 +157,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get themeDark;
+
+  /// Bottom navigation tab label for the movies home section.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies'**
+  String get navMovies;
+
+  /// Bottom navigation tab label for search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get navSearch;
+
+  /// Bottom navigation tab label for the user's saved list.
+  ///
+  /// In en, this message translates to:
+  /// **'My list'**
+  String get navMyList;
+
+  /// Title for the app settings sheet (theme and language).
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// Settings sheet section title for theme.
+  ///
+  /// In en, this message translates to:
+  /// **'APPEARANCE'**
+  String get settingsSectionAppearance;
+
+  /// Settings sheet section title for language.
+  ///
+  /// In en, this message translates to:
+  /// **'LANGUAGE'**
+  String get settingsSectionLanguage;
+
+  /// Subtitle for Dark theme option in settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Always dark chrome.'**
+  String get settingsThemeDarkSubtitle;
+
+  /// Subtitle for Light theme option in settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Always light chrome.'**
+  String get settingsThemeLightSubtitle;
+
+  /// Subtitle for System theme option in settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Match the device setting.'**
+  String get settingsThemeSystemSubtitle;
+
+  /// Accessibility label for closing the settings sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get settingsCloseSheet;
+
+  /// Short code for English in settings cards.
+  ///
+  /// In en, this message translates to:
+  /// **'EN'**
+  String get settingsLangCodeEn;
+
+  /// Short code for Turkish in settings cards.
+  ///
+  /// In en, this message translates to:
+  /// **'TR'**
+  String get settingsLangCodeTr;
 }
 
 class _AppLocalizationsDelegate

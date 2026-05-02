@@ -7,7 +7,55 @@
   "languageEnglish": "English",
   "languageTurkish": "Turkish",
   "themeAppearance": "Theme",
-  "themeSystem": "System default",
+  "themeSystem": "System",
   "themeLight": "Light",
-  "themeDark": "Dark"
+  "themeDark": "Dark",
+  "navMovies": "Movies",
+  "@navMovies": {
+    "description": "Bottom navigation tab label for the movies home section."
+  },
+  "navSearch": "Search",
+  "@navSearch": {
+    "description": "Bottom navigation tab label for search."
+  },
+  "navMyList": "My list",
+  "@navMyList": {
+    "description": "Bottom navigation tab label for the user's saved list."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Title for the app settings sheet (theme and language)."
+  },
+  "settingsSectionAppearance": "APPEARANCE",
+  "@settingsSectionAppearance": {
+    "description": "Settings sheet section title for theme."
+  },
+  "settingsSectionLanguage": "LANGUAGE",
+  "@settingsSectionLanguage": {
+    "description": "Settings sheet section title for language."
+  },
+  "settingsThemeDarkSubtitle": "Always dark chrome.",
+  "@settingsThemeDarkSubtitle": {
+    "description": "Subtitle for Dark theme option in settings."
+  },
+  "settingsThemeLightSubtitle": "Always light chrome.",
+  "@settingsThemeLightSubtitle": {
+    "description": "Subtitle for Light theme option in settings."
+  },
+  "settingsThemeSystemSubtitle": "Match the device setting.",
+  "@settingsThemeSystemSubtitle": {
+    "description": "Subtitle for System theme option in settings."
+  },
+  "settingsCloseSheet": "Close",
+  "@settingsCloseSheet": {
+    "description": "Accessibility label for closing the settings sheet."
+  },
+  "settingsLangCodeEn": "EN",
+  "@settingsLangCodeEn": {
+    "description": "Short code for English in settings cards."
+  },
+  "settingsLangCodeTr": "TR",
+  "@settingsLangCodeTr": {
+    "description": "Short code for Turkish in settings cards."
+  }
 }
