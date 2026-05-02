@@ -46,11 +46,7 @@ class RootBottomNavItem extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                icon,
-                size: 24,
-                color: isActive ? activeColor : idleColor,
-              ),
+              Icon(icon, size: 24, color: isActive ? activeColor : idleColor),
               const SizedBox(height: 4),
               Text(
                 label,

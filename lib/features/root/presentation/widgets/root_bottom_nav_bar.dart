@@ -24,11 +24,7 @@ class RootBottomNavBar extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: scheme.outlineVariant,
-            ),
+            Divider(height: 1, thickness: 1, color: scheme.outlineVariant),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 6, 10, 0),
               child: Row(

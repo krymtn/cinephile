@@ -23,7 +23,9 @@ Future<void> showAppSettingsSheet(BuildContext context) {
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLg)),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(AppTheme.radiusLg),
+      ),
     ),
     builder: (sheetContext) {
       return BlocBuilder<ThemeCubit, ThemeMode>(
@@ -32,7 +34,9 @@ Future<void> showAppSettingsSheet(BuildContext context) {
           return Material(
             color: scheme.surfaceContainer,
             clipBehavior: Clip.antiAlias,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLg)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(AppTheme.radiusLg),
+            ),
             child: Padding(
               padding: EdgeInsets.only(
                 left: 20,
@@ -45,7 +49,9 @@ Future<void> showAppSettingsSheet(BuildContext context) {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SettingsSheetHeader(onClose: () => Navigator.of(sheetContext).pop()),
+                    SettingsSheetHeader(
+                      onClose: () => Navigator.of(sheetContext).pop(),
+                    ),
                     const SizedBox(height: 12),
                     BlocBuilder<LocaleCubit, Locale>(
                       builder: (_, locale) {
@@ -54,38 +60,50 @@ Future<void> showAppSettingsSheet(BuildContext context) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            SettingsSectionLabel(text: l10n.settingsSectionAppearance),
+                            SettingsSectionLabel(
+                              text: l10n.settingsSectionAppearance,
+                            ),
                             SettingsOptionCard(
                               selected: themeMode == ThemeMode.dark,
                               title: l10n.themeDark,
                               subtitle: l10n.settingsThemeDarkSubtitle,
-                              onTap: () => sheetContext.themeCubit.setThemeMode(ThemeMode.dark),
+                              onTap: () => sheetContext.themeCubit.setThemeMode(
+                                ThemeMode.dark,
+                              ),
                             ),
                             SettingsOptionCard(
                               selected: themeMode == ThemeMode.light,
                               title: l10n.themeLight,
                               subtitle: l10n.settingsThemeLightSubtitle,
-                              onTap: () => sheetContext.themeCubit.setThemeMode(ThemeMode.light),
+                              onTap: () => sheetContext.themeCubit.setThemeMode(
+                                ThemeMode.light,
+                              ),
                             ),
                             SettingsOptionCard(
                               selected: themeMode == ThemeMode.system,
                               title: l10n.themeSystem,
                               subtitle: l10n.settingsThemeSystemSubtitle,
-                              onTap: () => sheetContext.themeCubit.setThemeMode(ThemeMode.system),
+                              onTap: () => sheetContext.themeCubit.setThemeMode(
+                                ThemeMode.system,
+                              ),
                             ),
                             const SizedBox(height: 8),
-                            SettingsSectionLabel(text: l10n.settingsSectionLanguage),
+                            SettingsSectionLabel(
+                              text: l10n.settingsSectionLanguage,
+                            ),
                             SettingsOptionCard(
                               selected: locale.languageCode == 'en',
                               title: l10n.languageEnglish,
                               subtitle: l10n.settingsLangCodeEn,
-                              onTap: () => sheetContext.localeCubit.setLanguage('en'),
+                              onTap: () =>
+                                  sheetContext.localeCubit.setLanguage('en'),
                             ),
                             SettingsOptionCard(
                               selected: locale.languageCode == 'tr',
                               title: l10n.languageTurkish,
                               subtitle: l10n.settingsLangCodeTr,
-                              onTap: () => sheetContext.localeCubit.setLanguage('tr'),
+                              onTap: () =>
+                                  sheetContext.localeCubit.setLanguage('tr'),
                             ),
                           ],
                         );

@@ -66,7 +66,9 @@ class SettingsOptionCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Icon(
-                  selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                  selected
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_unchecked,
                   color: radioColor,
                   size: 26,
                 ),
