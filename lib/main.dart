@@ -18,9 +18,9 @@ import 'core/theme/theme_cubit.dart';
 import 'core/theme/theme_repository.dart';
 import 'core/theme/use_cases/load_app_theme_mode.dart';
 import 'core/theme/use_cases/set_app_theme_mode.dart';
+import 'features/root/presentation/pages/root_shell_page.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'theme/app_theme.dart';
-import 'theme/theme_extension.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -123,107 +123,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) => context.l10n.appTitle,
-      home: const MyHomePage(),
+      home: const RootShellPage(),
     );
   }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.homeTitle),
-        actions: [
-          PopupMenuButton<ThemeMode>(
-            icon: const Icon(Icons.dark_mode_outlined),
-            tooltip: context.l10n.themeAppearance,
-            onSelected: (mode) => context.themeCubit.setThemeMode(mode),
-            itemBuilder: (menuContext) => [
-              PopupMenuItem(
-                value: ThemeMode.system,
-                child: Text(menuContext.l10n.themeSystem),
-              ),
-              PopupMenuItem(
-                value: ThemeMode.light,
-                child: Text(menuContext.l10n.themeLight),
-              ),
-              PopupMenuItem(
-                value: ThemeMode.dark,
-                child: Text(menuContext.l10n.themeDark),
-              ),
-            ],
-          ),
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.language_outlined),
-            onSelected: (code) => context.localeCubit.setLanguage(code),
-            itemBuilder: (menuContext) => [
-              PopupMenuItem(
-                value: 'en',
-                child: Text(menuContext.l10n.languageEnglish),
-              ),
-              PopupMenuItem(
-                value: 'tr',
-                child: Text(menuContext.l10n.languageTurkish),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(context.l10n.counterHint),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              context.l10n.themeAppearance,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            ),
-            Text(
-              _themeModeLabel(context, context.watch<ThemeCubit>().state),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: context.appThemeColors.detailBody,
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: context.l10n.increment,
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-String _themeModeLabel(BuildContext context, ThemeMode mode) {
-  final l10n = context.l10n;
-  return switch (mode) {
-    ThemeMode.system => l10n.themeSystem,
-    ThemeMode.light => l10n.themeLight,
-    ThemeMode.dark => l10n.themeDark,
-  };
 }
