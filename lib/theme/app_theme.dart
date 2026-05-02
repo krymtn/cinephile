@@ -10,46 +10,51 @@ abstract final class AppTheme {
   static const double radiusSm = 10;
 
   static ThemeData dark() {
-    final scheme = ColorScheme.dark(
-      primary: Palette.darkAccent,
-      onPrimary: Palette.darkBg,
-      surface: Palette.darkSurface,
-      onSurface: Palette.darkText,
-      onSurfaceVariant: Palette.darkMuted,
-      outline: Palette.darkBorder,
-      outlineVariant: Palette.darkBorderStrong,
-    ).copyWith(
-      surfaceContainerLowest: Palette.darkBg,
-      surfaceContainerLow: Palette.darkSurface2,
-      surfaceContainer: Palette.darkSurface2,
-      surfaceContainerHigh: Palette.darkSurfacePress,
-    );
+    final scheme =
+        ColorScheme.dark(
+          primary: Palette.darkAccent,
+          onPrimary: Palette.darkBg,
+          surface: Palette.darkSurface,
+          onSurface: Palette.darkText,
+          onSurfaceVariant: Palette.darkMuted,
+          outline: Palette.darkBorder,
+          outlineVariant: Palette.darkBorderStrong,
+        ).copyWith(
+          surfaceContainerLowest: Palette.darkBg,
+          surfaceContainerLow: Palette.darkSurface2,
+          surfaceContainer: Palette.darkSurface2,
+          surfaceContainerHigh: Palette.darkSurfacePress,
+        );
 
     return _base(scheme, AppThemeColors.darkResolved());
   }
 
   static ThemeData light() {
-    final scheme = ColorScheme.light(
-      primary: Palette.lightAccent,
-      onPrimary: Palette.lightBg,
-      surface: Palette.lightSurface,
-      onSurface: Palette.lightText,
-      onSurfaceVariant: Palette.lightMuted,
-      outline: Palette.lightBorder,
-      outlineVariant: Palette.lightBorderStrong,
-    ).copyWith(
-      surfaceContainerLowest: Palette.lightBg,
-      surfaceContainerLow: Palette.lightSurface2,
-      surfaceContainer: Palette.lightSurface2,
-      surfaceContainerHigh: Palette.lightSurfacePress,
-    );
+    final scheme =
+        ColorScheme.light(
+          primary: Palette.lightAccent,
+          onPrimary: Palette.lightBg,
+          surface: Palette.lightSurface,
+          onSurface: Palette.lightText,
+          onSurfaceVariant: Palette.lightMuted,
+          outline: Palette.lightBorder,
+          outlineVariant: Palette.lightBorderStrong,
+        ).copyWith(
+          surfaceContainerLowest: Palette.lightBg,
+          surfaceContainerLow: Palette.lightSurface2,
+          surfaceContainer: Palette.lightSurface2,
+          surfaceContainerHigh: Palette.lightSurfacePress,
+        );
 
     return _base(scheme, AppThemeColors.lightResolved());
   }
 
   static ThemeData _base(ColorScheme scheme, AppThemeColors extra) {
     final brightness = scheme.brightness;
-    final baseText = ThemeData(brightness: brightness, useMaterial3: true).textTheme;
+    final baseText = ThemeData(
+      brightness: brightness,
+      useMaterial3: true,
+    ).textTheme;
     final textTheme = GoogleFonts.dmSansTextTheme(baseText);
     final primaryTextTheme = GoogleFonts.dmSansTextTheme(
       ThemeData(brightness: brightness).textTheme,
@@ -93,7 +98,10 @@ abstract final class AppTheme {
           borderSide: BorderSide(color: scheme.primary, width: 1.5),
         ),
         hintStyle: TextStyle(color: extra.searchPlaceholder),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -122,7 +130,11 @@ abstract final class AppTheme {
           borderRadius: BorderRadius.circular(radiusSm),
         ),
       ),
-      dividerTheme: DividerThemeData(color: scheme.outline, space: 1, thickness: 1),
+      dividerTheme: DividerThemeData(
+        color: scheme.outline,
+        space: 1,
+        thickness: 1,
+      ),
     );
   }
 }

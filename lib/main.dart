@@ -198,14 +198,14 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               context.l10n.themeAppearance,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
             Text(
               _themeModeLabel(context, context.watch<ThemeCubit>().state),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: context.appThemeColors.detailBody,
-                  ),
+                color: context.appThemeColors.detailBody,
+              ),
             ),
           ],
         ),

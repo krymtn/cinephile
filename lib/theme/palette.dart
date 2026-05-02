@@ -38,20 +38,16 @@ abstract final class Palette {
   static const Color lightPosterGradA = Color(0xFFDCDCE6);
   static const Color lightPosterGradB = Color(0xFFC8C8D4);
 
-  static Color darkAccentDim() =>
-      darkAccent.withValues(alpha: 0.18);
+  static Color darkAccentDim() => darkAccent.withValues(alpha: 0.18);
 
-  static Color lightAccentDim() =>
-      lightAccent.withValues(alpha: 0.12);
+  static Color lightAccentDim() => lightAccent.withValues(alpha: 0.12);
 
-  static Color darkOverlayScrim() =>
-      Colors.black.withValues(alpha: 0.5);
+  static Color darkOverlayScrim() => Colors.black.withValues(alpha: 0.5);
 
   static Color lightOverlayScrim() =>
       const Color(0xFF18181D).withValues(alpha: 0.35);
 
-  static Color darkThumbShadow() =>
-      Colors.black.withValues(alpha: 0.45);
+  static Color darkThumbShadow() => Colors.black.withValues(alpha: 0.45);
 
   static Color lightThumbShadow() =>
       const Color(0xFF18181D).withValues(alpha: 0.2);

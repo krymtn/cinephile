@@ -94,8 +94,11 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     return AppThemeColors(
       accentDim: Color.lerp(accentDim, other.accentDim, t)!,
       detailBody: Color.lerp(detailBody, other.detailBody, t)!,
-      searchPlaceholder:
-          Color.lerp(searchPlaceholder, other.searchPlaceholder, t)!,
+      searchPlaceholder: Color.lerp(
+        searchPlaceholder,
+        other.searchPlaceholder,
+        t,
+      )!,
       overlayScrim: Color.lerp(overlayScrim, other.overlayScrim, t)!,
       thumbShadow: Color.lerp(thumbShadow, other.thumbShadow, t)!,
       thumbGradA: Color.lerp(thumbGradA, other.thumbGradA, t)!,
