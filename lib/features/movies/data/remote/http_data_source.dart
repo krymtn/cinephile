@@ -40,16 +40,5 @@ class HttpMovieRemoteDataSource implements MovieRemoteDataSource {
     return pagedMoviesSerializer.fromJson(data);
   }
 
-  String _pathFor(MovieCatalogKind kind) {
-    switch (kind) {
-      case MovieCatalogKind.nowPlaying:
-        return '/movie/now_playing';
-      case MovieCatalogKind.popular:
-        return '/movie/popular';
-      case MovieCatalogKind.topRated:
-        return '/movie/top_rated';
-      case MovieCatalogKind.upcoming:
-        return '/movie/upcoming';
-    }
-  }
+  String _pathFor(MovieCatalogKind kind) => '/movie/${kind.wireKey}';
 }

@@ -63,16 +63,6 @@ class MockMovieRemoteDataSource implements MovieRemoteDataSource {
     );
   }
 
-  String _assetPath(MovieCatalogKind kind) {
-    switch (kind) {
-      case MovieCatalogKind.nowPlaying:
-        return 'assets/mocks/movies/now_playing.json';
-      case MovieCatalogKind.popular:
-        return 'assets/mocks/movies/popular.json';
-      case MovieCatalogKind.topRated:
-        return 'assets/mocks/movies/top_rated.json';
-      case MovieCatalogKind.upcoming:
-        return 'assets/mocks/movies/upcoming.json';
-    }
-  }
+  String _assetPath(MovieCatalogKind kind) =>
+      'assets/mocks/movies/${kind.wireKey}.json';
 }
