@@ -1,4 +1,4 @@
-import '../../../../../core/database/database_constants.dart';
+
 import '../../../../../core/database/models/base_entity.dart';
 import 'schema.dart';
 
@@ -17,12 +17,7 @@ class MovieEntity extends BaseEntity {
     this.voteAverage = 0,
     this.voteCount = 0,
     this.adult = false,
-    this.video = false,
-    required this.createdAt,
-    required this.updatedAt,
-    this.deletedAt,
-    this.syncId,
-    this.syncStatus = 0,
+    this.video = false
   });
 
   int get movieId => int.parse(id);
@@ -43,58 +38,40 @@ class MovieEntity extends BaseEntity {
   final bool adult;
   final bool video;
 
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final DateTime? deletedAt;
-  final String? syncId;
-  final int syncStatus;
-
   @override
   Map<String, dynamic> toMap() {
     return {
-      MoviesTable.id: id,
-      MoviesTable.title: title,
-      MoviesTable.originalTitle: originalTitle,
-      MoviesTable.originalLanguage: originalLanguage,
-      MoviesTable.overview: overview,
-      MoviesTable.releaseDate: releaseDate,
-      MoviesTable.posterPath: posterPath,
-      MoviesTable.backdropPath: backdropPath,
-      MoviesTable.popularity: popularity,
-      MoviesTable.voteAverage: voteAverage,
-      MoviesTable.voteCount: voteCount,
-      MoviesTable.adult: adult ? 1 : 0,
-      MoviesTable.video: video ? 1 : 0,
-      BaseColumns.createdAt: createdAt.toIso8601String(),
-      BaseColumns.updatedAt: updatedAt.toIso8601String(),
-      BaseColumns.deletedAt: deletedAt?.toIso8601String(),
-      BaseColumns.syncId: syncId,
-      BaseColumns.syncStatus: syncStatus,
+      MovieSchema.id: id,
+      MovieSchema.title: title,
+      MovieSchema.originalTitle: originalTitle,
+      MovieSchema.originalLanguage: originalLanguage,
+      MovieSchema.overview: overview,
+      MovieSchema.releaseDate: releaseDate,
+      MovieSchema.posterPath: posterPath,
+      MovieSchema.backdropPath: backdropPath,
+      MovieSchema.popularity: popularity,
+      MovieSchema.voteAverage: voteAverage,
+      MovieSchema.voteCount: voteCount,
+      MovieSchema.adult: adult ? 1 : 0,
+      MovieSchema.video: video ? 1 : 0,
     };
   }
 
   factory MovieEntity.fromMap(Map<String, dynamic> map) {
     return MovieEntity(
-      id: map[MoviesTable.id] as String,
-      title: map[MoviesTable.title] as String,
-      originalTitle: map[MoviesTable.originalTitle] as String?,
-      originalLanguage: map[MoviesTable.originalLanguage] as String?,
-      overview: map[MoviesTable.overview] as String?,
-      releaseDate: map[MoviesTable.releaseDate] as String?,
-      posterPath: map[MoviesTable.posterPath] as String?,
-      backdropPath: map[MoviesTable.backdropPath] as String?,
-      popularity: (map[MoviesTable.popularity] as num?)?.toDouble() ?? 0,
-      voteAverage: (map[MoviesTable.voteAverage] as num?)?.toDouble() ?? 0,
-      voteCount: (map[MoviesTable.voteCount] as num?)?.toInt() ?? 0,
-      adult: (map[MoviesTable.adult] as int? ?? 0) != 0,
-      video: (map[MoviesTable.video] as int? ?? 0) != 0,
-      createdAt: DateTime.parse(map[BaseColumns.createdAt] as String),
-      updatedAt: DateTime.parse(map[BaseColumns.updatedAt] as String),
-      deletedAt: map[BaseColumns.deletedAt] != null
-          ? DateTime.parse(map[BaseColumns.deletedAt] as String)
-          : null,
-      syncId: map[BaseColumns.syncId] as String?,
-      syncStatus: (map[BaseColumns.syncStatus] as num?)?.toInt() ?? 0,
+      id: map[MovieSchema.id] as String,
+      title: map[MovieSchema.title] as String,
+      originalTitle: map[MovieSchema.originalTitle] as String?,
+      originalLanguage: map[MovieSchema.originalLanguage] as String?,
+      overview: map[MovieSchema.overview] as String?,
+      releaseDate: map[MovieSchema.releaseDate] as String?,
+      posterPath: map[MovieSchema.posterPath] as String?,
+      backdropPath: map[MovieSchema.backdropPath] as String?,
+      popularity: (map[MovieSchema.popularity] as num?)?.toDouble() ?? 0,
+      voteAverage: (map[MovieSchema.voteAverage] as num?)?.toDouble() ?? 0,
+      voteCount: (map[MovieSchema.voteCount] as num?)?.toInt() ?? 0,
+      adult: (map[MovieSchema.adult] as int? ?? 0) != 0,
+      video: (map[MovieSchema.video] as int? ?? 0) != 0
     );
   }
 }

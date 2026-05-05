@@ -1,14 +1,15 @@
 import 'package:sqflite/sqflite.dart';
 
+import '../../../../../core/database/dao/dao_schema.dart';
 import '../../../../../core/database/database_constants.dart';
 
-/// SQLite identifiers + `CREATE TABLE` for the TMDB encyclopedia (`movies`).
-///
-/// DDL only — no [DaoSchema] registration or version migrations in this layer.
-abstract final class MoviesTable {
-  static const name = 'movies';
+final class MovieSchema extends DaoSchema {
+  @override
+  String get name => 'movies';
 
+  /// Offline/sync columns
   static const id = BaseColumns.id;
+  /// Movie payload columns
   static const title = 'title';
   static const originalTitle = 'original_title';
   static const originalLanguage = 'original_language';
@@ -22,28 +23,28 @@ abstract final class MoviesTable {
   static const adult = 'adult';
   static const video = 'video';
 
-  static Future<void> create(Database db) async {
+  @override
+  Future<void> onCreate(Database db, int version) async {
     await db.execute('''
-CREATE TABLE IF NOT EXISTS $name (
-  $id TEXT PRIMARY KEY NOT NULL,
-  ${BaseColumns.createdAt} TEXT NOT NULL,
-  ${BaseColumns.updatedAt} TEXT NOT NULL,
-  ${BaseColumns.deletedAt} TEXT,
-  ${BaseColumns.syncId} TEXT,
-  ${BaseColumns.syncStatus} INTEGER NOT NULL DEFAULT 0,
-  $title TEXT NOT NULL,
-  $originalTitle TEXT,
-  $originalLanguage TEXT,
-  $overview TEXT,
-  $releaseDate TEXT,
-  $posterPath TEXT,
-  $backdropPath TEXT,
-  $popularity REAL NOT NULL DEFAULT 0,
-  $voteAverage REAL NOT NULL DEFAULT 0,
-  $voteCount INTEGER NOT NULL DEFAULT 0,
-  $adult INTEGER NOT NULL DEFAULT 0,
-  $video INTEGER NOT NULL DEFAULT 0
-)
-''');
+      CREATE TABLE IF NOT EXISTS $name (
+        $id TEXT PRIMARY KEY NOT NULL,
+        $title TEXT NOT NULL,
+        $originalTitle TEXT,
+        $originalLanguage TEXT,
+        $overview TEXT,
+        $releaseDate TEXT,
+        $posterPath TEXT,
+        $backdropPath TEXT,
+        $popularity REAL NOT NULL DEFAULT 0,
+        $voteAverage REAL NOT NULL DEFAULT 0,
+        $voteCount INTEGER NOT NULL DEFAULT 0,
+        $adult INTEGER NOT NULL DEFAULT 0,
+        $video INTEGER NOT NULL DEFAULT 0
+
+      )
+    ''');
   }
+
+  @override
+  Future<void> onUpgrade(Database db, int oldVersion, int newVersion) async {}
 }
