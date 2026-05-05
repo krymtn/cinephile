@@ -29,6 +29,10 @@ class DatabaseManager {
     return await openDatabase(
       path,
       version: DatabaseConstants.databaseVersion,
+      onConfigure: (db) async {
+        // Enable foreign key constraints to prevent data integrity issues
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
       onDowngrade: _onDowngrade,

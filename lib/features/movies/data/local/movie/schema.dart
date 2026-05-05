@@ -5,7 +5,7 @@ import '../../../../../core/database/database_constants.dart';
 
 final class MovieSchema extends DaoSchema {
   @override
-  String get name => 'movies';
+  String get name => TableNames.movies;
 
   /// Offline/sync columns
   static const id = BaseColumns.id;
