@@ -1,6 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 
 abstract class DaoSchema {
+  /// The name of the schema.
+  String get name;
   /// Called when the database is created for the first time.
   /// The DAO should execute its CREATE TABLE statement here.
   Future<void> onCreate(Database db, int version);
