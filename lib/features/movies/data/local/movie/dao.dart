@@ -10,8 +10,7 @@ class MovieDao extends BaseDao<MovieEntity> {
   String get tableName => 'movies';
 
   @override
-  MovieEntity fromMap(Map<String, dynamic> map) =>
-      MovieEntity.fromMap(map);
+  MovieEntity fromMap(Map<String, dynamic> map) => MovieEntity.fromMap(map);
 
   Future<MovieEntity?> getByMovieId(int movieId) async {
     final rows = await db.query(

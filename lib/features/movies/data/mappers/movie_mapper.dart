@@ -48,11 +48,13 @@ extension MovieDtoMapper on MovieDto {
 
   List<MovieGenreEntity> toGenreEntities() {
     return genreIds
-        .map((genreId) => MovieGenreEntity(
-              id: '${id}_$genreId',
-              movieRowId: id.toString(),
-              genreId: genreId,
-            ))
+        .map(
+          (genreId) => MovieGenreEntity(
+            id: '${id}_$genreId',
+            movieRowId: id.toString(),
+            genreId: genreId,
+          ),
+        )
         .toList();
   }
 }

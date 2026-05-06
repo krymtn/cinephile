@@ -21,18 +21,20 @@ void main() {
       final remote = MockMovieRemoteDataSource();
 
       final cachedPage = PagedMovies(
-        movies: const [
-          Movie(id: 1, title: 'Cached'),
-        ],
+        movies: const [Movie(id: 1, title: 'Cached')],
         page: 1,
         totalPages: 10,
         totalResults: 100,
       );
 
-      when(local.getCatalogPage(MovieCatalogKind.popular, 1))
-          .thenAnswer((_) async => cachedPage);
+      when(
+        local.getCatalogPage(MovieCatalogKind.popular, 1),
+      ).thenAnswer((_) async => cachedPage);
 
-      final repo = MovieRepositoryImpl(localDataSource: local, remoteDataSource: remote);
+      final repo = MovieRepositoryImpl(
+        localDataSource: local,
+        remoteDataSource: remote,
+      );
 
       final result = await repo.loadCatalog(MovieCatalogKind.popular, page: 1);
       expect(result, same(cachedPage));
@@ -45,8 +47,9 @@ void main() {
       final local = MockMovieLocalDataSource();
       final remote = MockMovieRemoteDataSource();
 
-      when(local.getCatalogPage(MovieCatalogKind.popular, 1))
-          .thenAnswer((_) async => null);
+      when(
+        local.getCatalogPage(MovieCatalogKind.popular, 1),
+      ).thenAnswer((_) async => null);
 
       final remoteDtoPage = PagedDto<MovieDto>(
         page: 1,
@@ -55,12 +58,17 @@ void main() {
         totalResults: 20,
       );
 
-      when(remote.fetchCatalog(MovieCatalogKind.popular, page: 1))
-          .thenAnswer((_) async => remoteDtoPage);
-      when(local.saveCatalogPage(MovieCatalogKind.popular, remoteDtoPage))
-          .thenAnswer((_) async {});
+      when(
+        remote.fetchCatalog(MovieCatalogKind.popular, page: 1),
+      ).thenAnswer((_) async => remoteDtoPage);
+      when(
+        local.saveCatalogPage(MovieCatalogKind.popular, remoteDtoPage),
+      ).thenAnswer((_) async {});
 
-      final repo = MovieRepositoryImpl(localDataSource: local, remoteDataSource: remote);
+      final repo = MovieRepositoryImpl(
+        localDataSource: local,
+        remoteDataSource: remote,
+      );
 
       final result = await repo.loadCatalog(MovieCatalogKind.popular, page: 1);
       expect(result.movies.single.id, 7);
@@ -68,8 +76,9 @@ void main() {
 
       verify(local.getCatalogPage(MovieCatalogKind.popular, 1)).called(1);
       verify(remote.fetchCatalog(MovieCatalogKind.popular, page: 1)).called(1);
-      verify(local.saveCatalogPage(MovieCatalogKind.popular, remoteDtoPage)).called(1);
+      verify(
+        local.saveCatalogPage(MovieCatalogKind.popular, remoteDtoPage),
+      ).called(1);
     });
   });
 }
-

@@ -25,8 +25,11 @@ class MovieGenreDao extends BaseDao<MovieGenreEntity> {
     for (final gid in genreIds) {
       batch.insert(
         tableName,
-        MovieGenreEntity(id: '${rowId}_$gid', movieRowId: rowId, genreId: gid)
-            .toMap(),
+        MovieGenreEntity(
+          id: '${rowId}_$gid',
+          movieRowId: rowId,
+          genreId: gid,
+        ).toMap(),
       );
     }
     await batch.commit(noResult: true);

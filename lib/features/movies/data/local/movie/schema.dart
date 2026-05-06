@@ -9,6 +9,7 @@ final class MovieSchema extends DaoSchema {
 
   /// Offline/sync columns
   static const id = BaseColumns.id;
+
   /// Movie payload columns
   static const title = 'title';
   static const originalTitle = 'original_title';

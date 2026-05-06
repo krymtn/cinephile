@@ -16,33 +16,47 @@ import 'package:cinephileapp/features/movies/domain/movie_catalog_kind.dart';
 
 import 'movie_local_data_source_test.mocks.dart';
 
-@GenerateMocks([MovieDao, MovieGenreDao, MovieCatalogPageDao, MovieCatalogMetaDao])
+@GenerateMocks([
+  MovieDao,
+  MovieGenreDao,
+  MovieCatalogPageDao,
+  MovieCatalogMetaDao,
+])
 void main() {
   group('MovieLocalDataSourceImpl', () {
-    test('getCatalogPage returns null when meta is missing (cache miss)', () async {
-      final movieDao = MockMovieDao();
-      final genreDao = MockMovieGenreDao();
-      final catalogPageDao = MockMovieCatalogPageDao();
-      final catalogMetaDao = MockMovieCatalogMetaDao();
+    test(
+      'getCatalogPage returns null when meta is missing (cache miss)',
+      () async {
+        final movieDao = MockMovieDao();
+        final genreDao = MockMovieGenreDao();
+        final catalogPageDao = MockMovieCatalogPageDao();
+        final catalogMetaDao = MockMovieCatalogMetaDao();
 
-      when(
-        catalogMetaDao.get(catalogKind: anyNamed('catalogKind'), page: anyNamed('page')),
-      ).thenAnswer((_) async => null);
+        when(
+          catalogMetaDao.get(
+            catalogKind: anyNamed('catalogKind'),
+            page: anyNamed('page'),
+          ),
+        ).thenAnswer((_) async => null);
 
-      final ds = MovieLocalDataSourceImpl(
-        movieDao: movieDao,
-        genreDao: genreDao,
-        catalogPageDao: catalogPageDao,
-        catalogMetaDao: catalogMetaDao,
-      );
+        final ds = MovieLocalDataSourceImpl(
+          movieDao: movieDao,
+          genreDao: genreDao,
+          catalogPageDao: catalogPageDao,
+          catalogMetaDao: catalogMetaDao,
+        );
 
-      final result = await ds.getCatalogPage(MovieCatalogKind.popular, 1);
-      expect(result, isNull);
-      verify(
-        catalogMetaDao.get(catalogKind: MovieCatalogKind.popular.wireKey, page: 1),
-      ).called(1);
-      verifyNoMoreInteractions(catalogMetaDao);
-    });
+        final result = await ds.getCatalogPage(MovieCatalogKind.popular, 1);
+        expect(result, isNull);
+        verify(
+          catalogMetaDao.get(
+            catalogKind: MovieCatalogKind.popular.wireKey,
+            page: 1,
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(catalogMetaDao);
+      },
+    );
 
     test('getCatalogPage returns movies in slot order when cached', () async {
       final movieDao = MockMovieDao();
@@ -51,7 +65,10 @@ void main() {
       final catalogMetaDao = MockMovieCatalogMetaDao();
 
       when(
-        catalogMetaDao.get(catalogKind: anyNamed('catalogKind'), page: anyNamed('page')),
+        catalogMetaDao.get(
+          catalogKind: anyNamed('catalogKind'),
+          page: anyNamed('page'),
+        ),
       ).thenAnswer(
         (_) async => MovieCatalogMetaEntity(
           id: 'popular_1',
@@ -66,7 +83,10 @@ void main() {
       );
 
       when(
-        catalogPageDao.listSlots(catalogKind: anyNamed('catalogKind'), page: anyNamed('page')),
+        catalogPageDao.listSlots(
+          catalogKind: anyNamed('catalogKind'),
+          page: anyNamed('page'),
+        ),
       ).thenAnswer(
         (_) async => [
           MovieCatalogPageEntity(
@@ -86,12 +106,12 @@ void main() {
         ],
       );
 
-      when(movieDao.getByMovieId(2)).thenAnswer(
-        (_) async => MovieEntity(id: '2', title: 'Second'),
-      );
-      when(movieDao.getByMovieId(1)).thenAnswer(
-        (_) async => MovieEntity(id: '1', title: 'First'),
-      );
+      when(
+        movieDao.getByMovieId(2),
+      ).thenAnswer((_) async => MovieEntity(id: '2', title: 'Second'));
+      when(
+        movieDao.getByMovieId(1),
+      ).thenAnswer((_) async => MovieEntity(id: '1', title: 'First'));
 
       final ds = MovieLocalDataSourceImpl(
         movieDao: movieDao,
@@ -163,4 +183,3 @@ void main() {
     });
   });
 }
-

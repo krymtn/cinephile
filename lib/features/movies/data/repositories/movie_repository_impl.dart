@@ -19,7 +19,7 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<PagedMovies> loadCatalog(MovieCatalogKind kind, {int page = 1}) async {
     final cachedPage = await localDataSource.getCatalogPage(kind, page);
-    
+
     if (cachedPage != null) {
       return cachedPage;
     }
@@ -29,9 +29,12 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<PagedMovies> fetchCatalog(MovieCatalogKind kind, {int page = 1}) async {
+  Future<PagedMovies> fetchCatalog(
+    MovieCatalogKind kind, {
+    int page = 1,
+  }) async {
     final remotePage = await remoteDataSource.fetchCatalog(kind, page: page);
-    
+
     // Map DTOs directly to Domain without saving to cache
     return remotePage.toDomain();
   }
@@ -40,10 +43,10 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<PagedMovies> syncCatalog(MovieCatalogKind kind, {int page = 1}) async {
     // 1. Fetch fresh DTOs from remote API
     final remotePage = await remoteDataSource.fetchCatalog(kind, page: page);
-    
+
     // 2. Save DTOs to local database
     await localDataSource.saveCatalogPage(kind, remotePage);
-    
+
     // 3. Convert DTOs to Domain models to return to the UI
     return remotePage.toDomain();
   }

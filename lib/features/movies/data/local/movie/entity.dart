@@ -1,4 +1,3 @@
-
 import '../../../../../core/database/models/base_entity.dart';
 import 'schema.dart';
 
@@ -17,7 +16,7 @@ class MovieEntity extends BaseEntity {
     this.voteAverage = 0,
     this.voteCount = 0,
     this.adult = false,
-    this.video = false
+    this.video = false,
   });
 
   int get movieId => int.parse(id);
@@ -71,7 +70,7 @@ class MovieEntity extends BaseEntity {
       voteAverage: (map[MovieSchema.voteAverage] as num?)?.toDouble() ?? 0,
       voteCount: (map[MovieSchema.voteCount] as num?)?.toInt() ?? 0,
       adult: (map[MovieSchema.adult] as int? ?? 0) != 0,
-      video: (map[MovieSchema.video] as int? ?? 0) != 0
+      video: (map[MovieSchema.video] as int? ?? 0) != 0,
     );
   }
 }

@@ -23,11 +23,7 @@ class HttpMovieRemoteDataSource implements MovieRemoteDataSource {
   }) async {
     final response = await _client.get(
       _pathFor(kind),
-      queryParameters: {
-        'page': page,
-        'language': ?language,
-        'region': ?region,
-      },
+      queryParameters: {'page': page, 'language': ?language, 'region': ?region},
     );
 
     final data = response.data;
