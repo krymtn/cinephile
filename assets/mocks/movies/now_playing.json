@@ -1,0 +1,91 @@
+{
+  "dates": {
+    "minimum": "2026-04-15",
+    "maximum": "2026-05-04"
+  },
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+      "genre_ids": [878, 12, 28],
+      "id": 693134,
+      "original_language": "en",
+      "original_title": "Dune: Part Two",
+      "overview": "Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family.",
+      "popularity": 1872.144,
+      "poster_path": "/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
+      "release_date": "2024-02-27",
+      "title": "Dune: Part Two",
+      "video": false,
+      "vote_average": 8.193,
+      "vote_count": 6451
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/8k5Yp7BczLAfFFXjPGCsouDV4Mg.jpg",
+      "genre_ids": [28, 53],
+      "id": 866398,
+      "original_language": "en",
+      "original_title": "The Beekeeper",
+      "overview": "One man's brutal campaign for vengeance takes on national stakes after he is revealed to be a former operative of a powerful and clandestine organization known as 'Beekeepers.'",
+      "popularity": 1124.3,
+      "poster_path": "/A7EByudX0eOzlkQ2FIbogzyazm2.jpg",
+      "release_date": "2024-01-10",
+      "title": "The Beekeeper",
+      "video": false,
+      "vote_average": 7.4,
+      "vote_count": 2210
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/eHTJeYwxctCYy9o4PRaslIrJ5O7.jpg",
+      "genre_ids": [28, 14, 878],
+      "id": 634492,
+      "original_language": "en",
+      "original_title": "Madame Web",
+      "overview": "Forced to confront revelations about her past, paramedic Cassandra Webb forges a relationship with three young women destined for powerful futures... if they can all survive a deadly present.",
+      "popularity": 985.012,
+      "poster_path": "/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+      "release_date": "2024-02-14",
+      "title": "Madame Web",
+      "video": false,
+      "vote_average": 5.6,
+      "vote_count": 1124
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/4qh4nKR4nfQk2oG5LpVZNZj1y3F.jpg",
+      "genre_ids": [18, 36, 10402],
+      "id": 787699,
+      "original_language": "en",
+      "original_title": "Bob Marley: One Love",
+      "overview": "Jamaican singer-songwriter Bob Marley overcomes adversity to become the most famous reggae musician in the world.",
+      "popularity": 612.45,
+      "poster_path": "/hrgb0gC1oZbGI3SkqRLE0Gn3T5y.jpg",
+      "release_date": "2024-02-14",
+      "title": "Bob Marley: One Love",
+      "video": false,
+      "vote_average": 7.0,
+      "vote_count": 980
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/k78YcrHvitemLBskt7w5pXsg5y4.jpg",
+      "genre_ids": [16, 10751, 12, 35],
+      "id": 940551,
+      "original_language": "en",
+      "original_title": "Migration",
+      "overview": "After a migrating duck family alights on their pond with thrilling tales of far-flung places, the Mallard family embarks on a family road trip from New England, to New York City, to tropical Jamaica.",
+      "popularity": 487.219,
+      "poster_path": "/ldfCF9RhR40mppkzmftxapaHeTo.jpg",
+      "release_date": "2023-12-22",
+      "title": "Migration",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 1502
+    }
+  ],
+  "total_pages": 198,
+  "total_results": 3955
+}

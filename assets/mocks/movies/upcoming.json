@@ -1,0 +1,91 @@
+{
+  "dates": {
+    "minimum": "2026-05-05",
+    "maximum": "2026-05-26"
+  },
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/iBHCnXTZqU3oTQ4tAm9q2MpQyM2.jpg",
+      "genre_ids": [878, 35, 12],
+      "id": 696506,
+      "original_language": "en",
+      "original_title": "Mickey 17",
+      "overview": "Unlikely hero Mickey Barnes finds himself in the extraordinary circumstance of working for an employer who demands the ultimate commitment to the job — to die, for a living.",
+      "popularity": 845.91,
+      "poster_path": "/lOLvDrtCDmAqMpcz2bP7bWG2BkD.jpg",
+      "release_date": "2026-03-07",
+      "title": "Mickey 17",
+      "video": false,
+      "vote_average": 0.0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2GZbSqPMVU3wtuRtCfGdUCF6mCQ.jpg",
+      "genre_ids": [28, 12, 53],
+      "id": 575265,
+      "original_language": "en",
+      "original_title": "Mission: Impossible - The Final Reckoning",
+      "overview": "Our lives are the sum of our choices. Tom Cruise stars as Ethan Hunt in Mission: Impossible - The Final Reckoning.",
+      "popularity": 920.55,
+      "poster_path": "/z53D72EAOxGRqdr7KXXWp9dJiDe.jpg",
+      "release_date": "2026-05-23",
+      "title": "Mission: Impossible - The Final Reckoning",
+      "video": false,
+      "vote_average": 0.0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/jVrx3uGI55dxC7sxYNqVcxtYTRm.jpg",
+      "genre_ids": [28, 878, 12],
+      "id": 822119,
+      "original_language": "en",
+      "original_title": "Captain America: Brave New World",
+      "overview": "After meeting with newly elected U.S. President Thaddeus Ross, Sam finds himself in the middle of an international incident.",
+      "popularity": 1102.34,
+      "poster_path": "/pzIddUEMWhWzfvLI3TwxUG2wGoi.jpg",
+      "release_date": "2026-02-12",
+      "title": "Captain America: Brave New World",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 1208
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2arzN2ZMckPkCcpkuTVmVCoZTeT.jpg",
+      "genre_ids": [10751, 14, 12],
+      "id": 447273,
+      "original_language": "en",
+      "original_title": "Snow White",
+      "overview": "A princess joins forces with seven dwarves to liberate her kingdom from her cruel stepmother, the Evil Queen.",
+      "popularity": 612.018,
+      "poster_path": "/qWtvoIw4WLtN4OFKbeQNjxpOk2C.jpg",
+      "release_date": "2026-03-21",
+      "title": "Snow White",
+      "video": false,
+      "vote_average": 0.0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9w0yIBcXvNb0fDjTRxBjOhmzSgN.jpg",
+      "genre_ids": [27, 9648, 53],
+      "id": 1078605,
+      "original_language": "en",
+      "original_title": "Until Dawn",
+      "overview": "One year after her sister Melanie mysteriously disappeared, Clover and her friends head into the remote valley where she vanished in search of answers.",
+      "popularity": 412.7,
+      "poster_path": "/juAk4OXz1ad1XWCZX4lFpW7OsiI.jpg",
+      "release_date": "2026-04-25",
+      "title": "Until Dawn",
+      "video": false,
+      "vote_average": 0.0,
+      "vote_count": 0
+    }
+  ],
+  "total_pages": 84,
+  "total_results": 1672
+}
