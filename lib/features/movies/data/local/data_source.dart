@@ -1,5 +1,3 @@
-import 'package:sqflite/sqflite.dart';
-
 import '../../../../core/data/paged_dto.dart';
 import '../../domain/movie.dart';
 import '../../domain/movie_catalog_kind.dart';
