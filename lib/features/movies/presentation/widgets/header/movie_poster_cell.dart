@@ -57,4 +57,3 @@ class MoviePosterCell extends StatelessWidget {
     );
   }
 }
-

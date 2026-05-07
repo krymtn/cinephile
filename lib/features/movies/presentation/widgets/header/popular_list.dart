@@ -7,11 +7,7 @@ import 'movie_poster_cell.dart';
 
 /// Horizontal list for the always-on **popular** rail.
 class MoviesPopularList extends StatelessWidget {
-  const MoviesPopularList({
-    super.key,
-    required this.movies,
-    this.onMovieTap,
-  });
+  const MoviesPopularList({super.key, required this.movies, this.onMovieTap});
 
   final List<Movie> movies;
   final void Function(Movie movie)? onMovieTap;
@@ -84,4 +80,3 @@ class MoviesPopularListSkeleton extends StatelessWidget {
     );
   }
 }
-

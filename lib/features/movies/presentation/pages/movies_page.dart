@@ -93,7 +93,8 @@ class _MoviesPageState extends State<MoviesPage> {
                           return switch (state) {
                             PopularMoviesLoaded(:final movies) =>
                               MoviesPopularList(movies: movies),
-                            PopularMoviesFailure() => const MoviesPopularListSkeleton(),
+                            PopularMoviesFailure() =>
+                              const MoviesPopularListSkeleton(),
                             _ => const MoviesPopularListSkeleton(),
                           };
                         },
@@ -117,18 +118,14 @@ class _MoviesPageState extends State<MoviesPage> {
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                 sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom:
-                              index < _catalogSkeletonItemCount - 1 ? 12 : 0,
-                        ),
-                        child: _CatalogRowSkeleton(index: index, colors: colors),
-                      );
-                    },
-                    childCount: _catalogSkeletonItemCount,
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index < _catalogSkeletonItemCount - 1 ? 12 : 0,
+                      ),
+                      child: _CatalogRowSkeleton(index: index, colors: colors),
+                    );
+                  }, childCount: _catalogSkeletonItemCount),
                 ),
               ),
             ],

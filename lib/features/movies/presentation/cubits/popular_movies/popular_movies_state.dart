@@ -24,4 +24,3 @@ final class PopularMoviesFailure extends PopularMoviesState {
   final Object error;
   final StackTrace? stackTrace;
 }
-

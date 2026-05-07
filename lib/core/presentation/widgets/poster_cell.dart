@@ -28,13 +28,9 @@ class PosterCell extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-          child: AspectRatio(
-            aspectRatio: aspectRatio,
-            child: child,
-          ),
+          child: AspectRatio(aspectRatio: aspectRatio, child: child),
         ),
       ),
     );
   }
 }
-

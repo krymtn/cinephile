@@ -30,4 +30,3 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState> {
 
   Future<void> refresh() => load();
 }
-

@@ -82,4 +82,3 @@ class MovieCell extends StatelessWidget {
     return director!;
   }
 }
-
