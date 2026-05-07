@@ -19,6 +19,9 @@ import 'core/theme/theme_cubit.dart';
 import 'core/theme/theme_repository.dart';
 import 'core/theme/use_cases/load_app_theme_mode.dart';
 import 'core/theme/use_cases/set_app_theme_mode.dart';
+import 'features/movies/data/local/catalog_meta/schema.dart';
+import 'features/movies/data/local/catalog_page/schema.dart';
+import 'features/movies/data/local/genre/schema.dart';
 import 'features/movies/data/local/movie/schema.dart';
 import 'features/root/presentation/pages/root_shell_page.dart';
 import 'l10n/generated/app_localizations.dart';
@@ -28,6 +31,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   DatabaseManager().registerDao(MovieSchema());
+  DatabaseManager().registerDao(MovieGenreSchema());
+  DatabaseManager().registerDao(MovieCatalogPageSchema());
+  DatabaseManager().registerDao(MovieCatalogMetaSchema());
 
   final secureStore = SecurePreferenceStore(const FlutterSecureStorage());
   final preferences = Preferences(secureStore);
