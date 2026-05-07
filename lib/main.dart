@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'core/config/env_config.dart';
 import 'core/database/database_manager.dart';
@@ -19,6 +20,9 @@ import 'core/theme/theme_cubit.dart';
 import 'core/theme/theme_repository.dart';
 import 'core/theme/use_cases/load_app_theme_mode.dart';
 import 'core/theme/use_cases/set_app_theme_mode.dart';
+import 'features/movies/data/local/catalog_meta/schema.dart';
+import 'features/movies/data/local/catalog_page/schema.dart';
+import 'features/movies/data/local/genre/schema.dart';
 import 'features/movies/data/local/movie/schema.dart';
 import 'features/root/presentation/pages/root_shell_page.dart';
 import 'l10n/generated/app_localizations.dart';
@@ -27,7 +31,11 @@ import 'theme/app_theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  DatabaseManager().registerDao(MovieSchema());
+  final db = DatabaseManager();
+  db.registerDao(MovieSchema());
+  db.registerDao(MovieGenreSchema());
+  db.registerDao(MovieCatalogPageSchema());
+  db.registerDao(MovieCatalogMetaSchema());
 
   final secureStore = SecurePreferenceStore(const FlutterSecureStorage());
   final preferences = Preferences(secureStore);
@@ -74,12 +82,14 @@ Future<void> main() async {
   );
 
   final networkClient = NetworkClient(dio);
+  final database = await db.database;
 
   debugPrint('main: NetworkClient initialized successfully');
 
   runApp(
     MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<Database>.value(value: database),
         RepositoryProvider<Preferences>.value(value: preferences),
         RepositoryProvider<NetworkClient>.value(value: networkClient),
       ],

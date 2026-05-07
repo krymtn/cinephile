@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/build_context.dart';
+import '../../../movies/presentation/pages/movies_page.dart';
 import '../../domain/root_tab.dart';
-import '../widgets/app_settings_sheet.dart';
 import '../widgets/root_bottom_nav_bar.dart';
 
 /// Root navigation shell hosting Movies, Search, and My list tabs.
@@ -44,7 +44,7 @@ class _RootShellPageState extends State<RootShellPage> {
           body: IndexedStack(
             index: selected.index,
             children: const [
-              _MoviesTabPlaceholder(),
+              MoviesPage(),
               _SearchTabPlaceholder(),
               _MyListTabPlaceholder(),
             ],
@@ -57,35 +57,6 @@ class _RootShellPageState extends State<RootShellPage> {
           ),
         );
       },
-    );
-  }
-}
-
-/// Placeholders until Movies / Search / My list features expose real pages.
-class _MoviesTabPlaceholder extends StatelessWidget {
-  const _MoviesTabPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.navMovies),
-        actions: [
-          IconButton(
-            tooltip: context.l10n.settingsTitle,
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => showAppSettingsSheet(context),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text(
-          context.l10n.navMovies,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ),
     );
   }
 }
