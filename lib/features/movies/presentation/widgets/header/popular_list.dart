@@ -1,6 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../theme/theme_extension.dart';
+import '../../../domain/movie.dart';
+import 'movie_poster_cell.dart';
+
+/// Horizontal list for the always-on **popular** rail.
+class MoviesPopularList extends StatelessWidget {
+  const MoviesPopularList({
+    super.key,
+    required this.movies,
+    this.onMovieTap,
+  });
+
+  final List<Movie> movies;
+  final void Function(Movie movie)? onMovieTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (movies.isEmpty) {
+      return const MoviesPopularListSkeleton();
+    }
+
+    return SizedBox(
+      height: 188,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.zero,
+        itemCount: movies.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          final movie = movies[index];
+          return MoviePosterCell(
+            movie: movie,
+            onTap: onMovieTap != null ? () => onMovieTap!(movie) : null,
+          );
+        },
+      ),
+    );
+  }
+}
 
 /// Horizontal list placeholder for the always-on **popular** rail.
 class MoviesPopularListSkeleton extends StatelessWidget {
@@ -15,59 +54,32 @@ class MoviesPopularListSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appThemeColors;
-    final accent = Theme.of(context).colorScheme.primary;
+    final scheme = Theme.of(context).colorScheme;
 
     return SizedBox(
       height: _cardHeight + 8,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.zero,
-        itemCount: itemCount,
-        separatorBuilder: (_, _) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final selected = index == 0;
-          return Container(
-            width: _cardWidth,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(_radius),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [colors.posterGradA, colors.posterGradB],
-              ),
-              border: Border.all(
-                color: selected
-                    ? accent
-                    : Theme.of(context).colorScheme.outlineVariant,
-                width: selected ? 2 : 1,
-              ),
-            ),
-            padding: const EdgeInsets.all(10),
-            alignment: Alignment.bottomLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${7.6 - index * 0.1}',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: accent,
-                    fontWeight: FontWeight.w700,
-                  ),
+      child: Shimmer.fromColors(
+        baseColor: scheme.surfaceContainerHighest,
+        highlightColor: scheme.surfaceContainerHigh,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.zero,
+          itemCount: itemCount,
+          separatorBuilder: (_, _) => const SizedBox(width: 12),
+          itemBuilder: (context, index) {
+            return Container(
+              width: _cardWidth,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(_radius),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [colors.posterGradA, colors.posterGradB],
                 ),
-                Text(
-                  'Title ${index + 1}',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

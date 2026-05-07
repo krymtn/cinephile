@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../../../core/extensions/build_context.dart';
+import '../../../../core/network/network_client.dart';
 import '../../../../theme/theme_extension.dart';
 import '../../../root/presentation/widgets/app_settings_sheet.dart';
+import '../../data/local/catalog_meta/dao.dart';
+import '../../data/local/catalog_page/dao.dart';
+import '../../data/local/data_source.dart';
+import '../../data/local/genre/dao.dart';
+import '../../data/local/movie/dao.dart';
+import '../../data/remote/data_source.dart';
+import '../../data/remote/http_data_source.dart';
+import '../../data/repositories/movie_repository_impl.dart';
 import '../../domain/movie_catalog_kind.dart';
+import '../../domain/movie_repository.dart';
+import '../../domain/use_cases/use_cases.dart';
+import '../cubits/cubits.dart';
 import '../widgets/header/catalog_kind_chips.dart';
 import '../widgets/header/popular_list.dart';
 import '../widgets/movies_section_heading.dart';
@@ -24,60 +38,102 @@ class _MoviesPageState extends State<MoviesPage> {
   @override
   Widget build(BuildContext context) {
     final colors = context.appThemeColors;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.navMovies),
-        actions: [
-          IconButton(
-            onPressed: () => showAppSettingsSheet(context),
-            icon: const Icon(Icons.settings_outlined),
+    final database = context.read<Database>();
+    final networkClient = context.read<NetworkClient>();
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<MovieLocalDataSource>(
+          create: (_) => MovieLocalDataSourceImpl(
+            movieDao: MovieDao(database),
+            genreDao: MovieGenreDao(database),
+            catalogPageDao: MovieCatalogPageDao(database),
+            catalogMetaDao: MovieCatalogMetaDao(database),
           ),
-        ],
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 8),
-                  const MoviesSectionHeading(title: 'Popular'),
-                  const MoviesPopularListSkeleton(),
-                  const SizedBox(height: 28),
-                  MoviesCatalogKindChips(
-                    selected: _selectedCatalogKind,
-                    onSelected: (kind) {
-                      setState(() => _selectedCatalogKind = kind);
+        ),
+        RepositoryProvider<MovieRemoteDataSource>(
+          create: (_) => HttpMovieRemoteDataSource(networkClient),
+        ),
+        RepositoryProvider<MovieRepository>(
+          create: (context) => MovieRepositoryImpl(
+            localDataSource: context.read<MovieLocalDataSource>(),
+            remoteDataSource: context.read<MovieRemoteDataSource>(),
+          ),
+        ),
+        RepositoryProvider<LoadMovieCatalogPage>(
+          create: (context) =>
+              LoadMovieCatalogPage(context.read<MovieRepository>()),
+        ),
+      ],
+      child: BlocProvider(
+        create: (context) => PopularMoviesCubit(
+          loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
+        )..load(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(context.l10n.navMovies),
+            actions: [
+              IconButton(
+                onPressed: () => showAppSettingsSheet(context),
+                icon: const Icon(Icons.settings_outlined),
+              ),
+            ],
+          ),
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 8),
+                      const MoviesSectionHeading(title: 'Popular'),
+                      BlocBuilder<PopularMoviesCubit, PopularMoviesState>(
+                        builder: (context, state) {
+                          return switch (state) {
+                            PopularMoviesLoaded(:final movies) =>
+                              MoviesPopularList(movies: movies),
+                            PopularMoviesFailure() => const MoviesPopularListSkeleton(),
+                            _ => const MoviesPopularListSkeleton(),
+                          };
+                        },
+                      ),
+                      const SizedBox(height: 28),
+                      MoviesCatalogKindChips(
+                        selected: _selectedCatalogKind,
+                        onSelected: (kind) {
+                          setState(() => _selectedCatalogKind = kind);
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      MoviesSectionHeading(
+                        title: _catalogHeading(_selectedCatalogKind),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom:
+                              index < _catalogSkeletonItemCount - 1 ? 12 : 0,
+                        ),
+                        child: _CatalogRowSkeleton(index: index, colors: colors),
+                      );
                     },
+                    childCount: _catalogSkeletonItemCount,
                   ),
-                  const SizedBox(height: 20),
-                  MoviesSectionHeading(
-                    title: _catalogHeading(_selectedCatalogKind),
-                  ),
-                  const SizedBox(height: 12),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index < _catalogSkeletonItemCount - 1 ? 12 : 0,
-                    ),
-                    child: _CatalogRowSkeleton(index: index, colors: colors),
-                  );
-                },
-                childCount: _catalogSkeletonItemCount,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

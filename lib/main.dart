@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'core/config/env_config.dart';
 import 'core/database/database_manager.dart';
@@ -30,10 +31,11 @@ import 'theme/app_theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  DatabaseManager().registerDao(MovieSchema());
-  DatabaseManager().registerDao(MovieGenreSchema());
-  DatabaseManager().registerDao(MovieCatalogPageSchema());
-  DatabaseManager().registerDao(MovieCatalogMetaSchema());
+  final db = DatabaseManager();
+  db.registerDao(MovieSchema());
+  db.registerDao(MovieGenreSchema());
+  db.registerDao(MovieCatalogPageSchema());
+  db.registerDao(MovieCatalogMetaSchema());
 
   final secureStore = SecurePreferenceStore(const FlutterSecureStorage());
   final preferences = Preferences(secureStore);
@@ -80,12 +82,14 @@ Future<void> main() async {
   );
 
   final networkClient = NetworkClient(dio);
+  final database = await db.database;
 
   debugPrint('main: NetworkClient initialized successfully');
 
   runApp(
     MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<Database>.value(value: database),
         RepositoryProvider<Preferences>.value(value: preferences),
         RepositoryProvider<NetworkClient>.value(value: networkClient),
       ],
