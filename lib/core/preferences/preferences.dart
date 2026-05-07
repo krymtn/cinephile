@@ -30,3 +30,20 @@ final class Preferences {
     }
   }
 }
+
+/// Default [PreferenceKeys.languageCode] when nothing is stored yet.
+const kDefaultAppLanguageCode = 'en';
+
+extension PreferencesLanguageCodeX on Preferences {
+  /// Returns the stored language code, or writes and returns [fallback] when absent or blank.
+  Future<String> readLanguageCodeWithDefault([
+    String fallback = kDefaultAppLanguageCode,
+  ]) async {
+    final stored = await read(PreferenceKeys.languageCode);
+    if (stored != null && stored.trim().isNotEmpty) {
+      return stored.trim();
+    }
+    await write(PreferenceKeys.languageCode, fallback);
+    return fallback;
+  }
+}

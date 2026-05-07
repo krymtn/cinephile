@@ -1,0 +1,61 @@
+{
+  "@@locale": "tr",
+  "appTitle": "Cinephile",
+  "homeTitle": "Ana Sayfa",
+  "counterHint": "Düğmeye şu kadar kez bastınız:",
+  "increment": "Artır",
+  "languageEnglish": "İngilizce",
+  "languageTurkish": "Türkçe",
+  "themeAppearance": "Görünüm",
+  "themeSystem": "Sistem",
+  "themeLight": "Açık",
+  "themeDark": "Koyu",
+  "navMovies": "Filmler",
+  "@navMovies": {
+    "description": "Bottom navigation tab label for the movies home section."
+  },
+  "navSearch": "Arama",
+  "@navSearch": {
+    "description": "Bottom navigation tab label for search."
+  },
+  "navMyList": "Listem",
+  "@navMyList": {
+    "description": "Bottom navigation tab label for the user's saved list."
+  },
+  "settingsTitle": "Ayarlar",
+  "@settingsTitle": {
+    "description": "Title for the app settings sheet (theme and language)."
+  },
+  "settingsSectionAppearance": "GÖRÜNÜM",
+  "@settingsSectionAppearance": {
+    "description": "Settings sheet section title for theme."
+  },
+  "settingsSectionLanguage": "DİL",
+  "@settingsSectionLanguage": {
+    "description": "Settings sheet section title for language."
+  },
+  "settingsThemeDarkSubtitle": "Her zaman koyu arayüz.",
+  "@settingsThemeDarkSubtitle": {
+    "description": "Subtitle for Dark theme option in settings."
+  },
+  "settingsThemeLightSubtitle": "Her zaman açık arayüz.",
+  "@settingsThemeLightSubtitle": {
+    "description": "Subtitle for Light theme option in settings."
+  },
+  "settingsThemeSystemSubtitle": "Cihaz ayarına uy.",
+  "@settingsThemeSystemSubtitle": {
+    "description": "Subtitle for System theme option in settings."
+  },
+  "settingsCloseSheet": "Kapat",
+  "@settingsCloseSheet": {
+    "description": "Accessibility label for closing the settings sheet."
+  },
+  "settingsLangCodeEn": "EN",
+  "@settingsLangCodeEn": {
+    "description": "Short code for English in settings cards."
+  },
+  "settingsLangCodeTr": "TR",
+  "@settingsLangCodeTr": {
+    "description": "Short code for Turkish in settings cards."
+  }
+}
