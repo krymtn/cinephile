@@ -21,6 +21,7 @@ import '../cubits/cubits.dart';
 import '../widgets/header/catalog_kind_chips.dart';
 import '../widgets/header/popular_list.dart';
 import '../widgets/movies_section_heading.dart';
+import '../widgets/padding/movie_cell.dart';
 
 /// Movies tab: catalog home with sliver-based layout (popular rail + catalog list).
 class MoviesPage extends StatefulWidget {
@@ -31,8 +32,6 @@ class MoviesPage extends StatefulWidget {
 }
 
 class _MoviesPageState extends State<MoviesPage> {
-  MovieCatalogKind _selectedCatalogKind = MovieCatalogKind.nowPlaying;
-
   static const int _catalogSkeletonItemCount = 12;
 
   @override
@@ -63,11 +62,25 @@ class _MoviesPageState extends State<MoviesPage> {
           create: (context) =>
               LoadMovieCatalogPage(context.read<MovieRepository>()),
         ),
+        RepositoryProvider<SyncMovieCatalogPage>(
+          create: (context) =>
+              SyncMovieCatalogPage(context.read<MovieRepository>()),
+        ),
       ],
-      child: BlocProvider(
-        create: (context) => PopularMoviesCubit(
-          loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
-        )..load(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => PopularMoviesCubit(
+              loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
+            )..load(),
+          ),
+          BlocProvider(
+            create: (context) => MoviesCatalogCubit(
+              loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
+              syncMovieCatalogPage: context.read<SyncMovieCatalogPage>(),
+            )..loadInitial(),
+          ),
+        ],
         child: Scaffold(
           appBar: AppBar(
             title: Text(context.l10n.navMovies),
@@ -100,15 +113,23 @@ class _MoviesPageState extends State<MoviesPage> {
                         },
                       ),
                       const SizedBox(height: 28),
-                      MoviesCatalogKindChips(
-                        selected: _selectedCatalogKind,
-                        onSelected: (kind) {
-                          setState(() => _selectedCatalogKind = kind);
+                      BlocBuilder<MoviesCatalogCubit, MoviesCatalogState>(
+                        builder: (context, state) {
+                          return MoviesCatalogKindChips(
+                            selected: state.selectedKind,
+                            onSelected: (kind) {
+                              context.read<MoviesCatalogCubit>().selectKind(kind);
+                            },
+                          );
                         },
                       ),
                       const SizedBox(height: 20),
-                      MoviesSectionHeading(
-                        title: _catalogHeading(_selectedCatalogKind),
+                      BlocBuilder<MoviesCatalogCubit, MoviesCatalogState>(
+                        builder: (context, state) {
+                          return MoviesSectionHeading(
+                            title: _catalogHeading(state.selectedKind),
+                          );
+                        },
                       ),
                       const SizedBox(height: 12),
                     ],
@@ -117,15 +138,41 @@ class _MoviesPageState extends State<MoviesPage> {
               ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index < _catalogSkeletonItemCount - 1 ? 12 : 0,
-                      ),
-                      child: _CatalogRowSkeleton(index: index, colors: colors),
-                    );
-                  }, childCount: _catalogSkeletonItemCount),
+                sliver: BlocBuilder<MoviesCatalogCubit, MoviesCatalogState>(
+                  builder: (context, state) {
+                    return switch (state) {
+                      MoviesCatalogLoaded(:final movies) => SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => Padding(
+                              padding: EdgeInsets.only(
+                                bottom: index < movies.length - 1 ? 12 : 0,
+                              ),
+                              child: MovieCell(movie: movies[index]),
+                            ),
+                            childCount: movies.length,
+                          ),
+                        ),
+                      MoviesCatalogFailure() => SliverList(
+                          delegate: SliverChildListDelegate.fixed([
+                            MovieCellSkeleton(colors: colors),
+                          ]),
+                        ),
+                      _ => SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => Padding(
+                              padding: EdgeInsets.only(
+                                bottom: index < _catalogSkeletonItemCount - 1
+                                    ? 12
+                                    : 0,
+                              ),
+                              child:
+                                  MovieCellSkeleton(colors: colors),
+                            ),
+                            childCount: _catalogSkeletonItemCount,
+                          ),
+                        ),
+                    };
+                  },
                 ),
               ),
             ],
@@ -142,79 +189,5 @@ class _MoviesPageState extends State<MoviesPage> {
       MovieCatalogKind.topRated => 'Top rated',
       MovieCatalogKind.upcoming => 'Upcoming',
     };
-  }
-}
-
-class _CatalogRowSkeleton extends StatelessWidget {
-  const _CatalogRowSkeleton({required this.index, required this.colors});
-
-  final int index;
-  final AppThemeColors colors;
-
-  static const double _posterWidth = 52;
-  static const double _posterHeight = 78;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final accent = scheme.primary;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: scheme.outline),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: _posterWidth,
-              height: _posterHeight,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [colors.posterGradA, colors.posterGradB],
-                ),
-              ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Catalog title ${index + 1}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '2024 · Placeholder director',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              (7.2 - (index % 5) * 0.1).toStringAsFixed(1),
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: accent,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
