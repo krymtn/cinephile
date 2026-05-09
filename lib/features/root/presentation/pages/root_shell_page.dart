@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/build_context.dart';
+import '../../../movies/presentation/movies_providers.dart';
 import '../../../movies/presentation/pages/movies_page.dart';
 import '../../domain/root_tab.dart';
 
@@ -99,7 +100,7 @@ class _RootShellPageState extends State<RootShellPage>
   }
 
   Widget _tabNavigator(RootTab tab) {
-    return Navigator(
+    final navigator = Navigator(
       key: _navigatorKeys[tab.index],
       onGenerateRoute: (settings) {
         return MaterialPageRoute<void>(
@@ -108,6 +109,13 @@ class _RootShellPageState extends State<RootShellPage>
         );
       },
     );
+
+    // Mount feature-level providers above each tab's Navigator so all routes
+    // pushed within the tab inherit the same repository/use-case instances.
+    return switch (tab) {
+      RootTab.movies => MoviesProviders(child: navigator),
+      _ => navigator,
+    };
   }
 }
 

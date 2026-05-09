@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite/sqflite.dart';
 
-import '../../../../core/network/network_client.dart';
 import '../../../../theme/theme_extension.dart';
-import '../../data/local/catalog_meta/dao.dart';
-import '../../data/local/catalog_page/dao.dart';
-import '../../data/local/data_source.dart';
-import '../../data/local/genre/dao.dart';
-import '../../data/local/movie/dao.dart';
-import '../../data/remote/data_source.dart';
-import '../../data/remote/http_data_source.dart';
-import '../../data/repositories/movie_repository_impl.dart';
 import '../../domain/movie_catalog_kind.dart';
-import '../../domain/movie_repository.dart';
 import '../../domain/use_cases/use_cases.dart';
 import '../cubits/cubits.dart';
 import '../widgets/padding/movie_cell.dart';
@@ -27,47 +16,16 @@ class MoviesCatalogListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appThemeColors;
-    final database = context.read<Database>();
-    final networkClient = context.read<NetworkClient>();
 
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<MovieLocalDataSource>(
-          create: (_) => MovieLocalDataSourceImpl(
-            movieDao: MovieDao(database),
-            genreDao: MovieGenreDao(database),
-            catalogPageDao: MovieCatalogPageDao(database),
-            catalogMetaDao: MovieCatalogMetaDao(database),
-          ),
-        ),
-        RepositoryProvider<MovieRemoteDataSource>(
-          create: (_) => HttpMovieRemoteDataSource(networkClient),
-        ),
-        RepositoryProvider<MovieRepository>(
-          create: (context) => MovieRepositoryImpl(
-            localDataSource: context.read<MovieLocalDataSource>(),
-            remoteDataSource: context.read<MovieRemoteDataSource>(),
-          ),
-        ),
-        RepositoryProvider<LoadMovieCatalogPage>(
-          create: (context) =>
-              LoadMovieCatalogPage(context.read<MovieRepository>()),
-        ),
-        RepositoryProvider<SyncMovieCatalogPage>(
-          create: (context) =>
-              SyncMovieCatalogPage(context.read<MovieRepository>()),
-        ),
-      ],
-      child: BlocProvider(
-        create: (context) => MoviesCatalogCubit(
-          loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
-          syncMovieCatalogPage: context.read<SyncMovieCatalogPage>(),
-          initialKind: kind,
-        )..loadInitial(),
-        child: _MoviesCatalogListScaffold(
-          title: title ?? _titleFor(kind),
-          colors: colors,
-        ),
+    return BlocProvider(
+      create: (context) => MoviesCatalogCubit(
+        loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
+        syncMovieCatalogPage: context.read<SyncMovieCatalogPage>(),
+        initialKind: kind,
+      )..loadInitial(),
+      child: _MoviesCatalogListScaffold(
+        title: title ?? _titleFor(kind),
+        colors: colors,
       ),
     );
   }
