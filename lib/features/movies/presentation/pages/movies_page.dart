@@ -89,9 +89,7 @@ class _MoviesPageState extends State<MoviesPage> {
                         return MoviesCatalogKindChips(
                           selected: state.selectedKind,
                           onSelected: (kind) {
-                            context.read<MoviesCatalogCubit>().selectKind(
-                              kind,
-                            );
+                            context.read<MoviesCatalogCubit>().selectKind(kind);
                           },
                         );
                       },
