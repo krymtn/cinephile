@@ -22,6 +22,7 @@ import '../widgets/header/catalog_kind_chips.dart';
 import '../widgets/header/popular_list.dart';
 import '../widgets/movies_section_heading.dart';
 import '../widgets/padding/movie_cell.dart';
+import 'movies_catalog_list_page.dart';
 
 /// Movies tab: catalog home with sliver-based layout (popular rail + catalog list).
 class MoviesPage extends StatefulWidget {
@@ -100,7 +101,18 @@ class _MoviesPageState extends State<MoviesPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 8),
-                      const MoviesSectionHeading(title: 'Popular'),
+                      MoviesSectionHeading(
+                        title: 'Popular',
+                        onSeeAll: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const MoviesCatalogListPage(
+                                kind: MovieCatalogKind.popular,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                       BlocBuilder<PopularMoviesCubit, PopularMoviesState>(
                         builder: (context, state) {
                           return switch (state) {
@@ -128,6 +140,15 @@ class _MoviesPageState extends State<MoviesPage> {
                         builder: (context, state) {
                           return MoviesSectionHeading(
                             title: _catalogHeading(state.selectedKind),
+                            onSeeAll: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => MoviesCatalogListPage(
+                                    kind: state.selectedKind,
+                                  ),
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

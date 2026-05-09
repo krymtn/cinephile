@@ -19,9 +19,30 @@ final class MoviesCatalogLoaded extends MoviesCatalogState {
   const MoviesCatalogLoaded({
     required super.selectedKind,
     required this.movies,
+    required this.page,
+    required this.totalPages,
+    this.isLoadingMore = false,
   });
 
   final List<Movie> movies;
+  final int page;
+  final int totalPages;
+  final bool isLoadingMore;
+
+  MoviesCatalogLoaded copyWith({
+    List<Movie>? movies,
+    int? page,
+    int? totalPages,
+    bool? isLoadingMore,
+  }) {
+    return MoviesCatalogLoaded(
+      selectedKind: selectedKind,
+      movies: movies ?? this.movies,
+      page: page ?? this.page,
+      totalPages: totalPages ?? this.totalPages,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+    );
+  }
 }
 
 final class MoviesCatalogFailure extends MoviesCatalogState {

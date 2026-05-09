@@ -26,13 +26,45 @@ class MoviesCatalogCubit extends Cubit<MoviesCatalogState> {
   /// Forces a server refresh + local persistence.
   Future<void> refresh() => _sync(state.selectedKind);
 
+  Future<void> loadMore() async {
+    final current = state;
+    if (current is! MoviesCatalogLoaded) return;
+    if (current.isLoadingMore) return;
+    if (current.page >= current.totalPages) return;
+
+    emit(current.copyWith(isLoadingMore: true));
+    try {
+      final nextPage = current.page + 1;
+      final page = await _loadMovieCatalogPage.invoke(
+        MovieCatalogPageInput(kind: current.selectedKind, page: nextPage),
+      );
+      emit(
+        current.copyWith(
+          movies: [...current.movies, ...page.movies],
+          page: page.page,
+          totalPages: page.totalPages,
+          isLoadingMore: false,
+        ),
+      );
+    } catch (_) {
+      emit(current.copyWith(isLoadingMore: false));
+    }
+  }
+
   Future<void> _load(MovieCatalogKind kind) async {
     emit(MoviesCatalogLoading(selectedKind: kind));
     try {
       final page = await _loadMovieCatalogPage.invoke(
         MovieCatalogPageInput(kind: kind, page: 1),
       );
-      emit(MoviesCatalogLoaded(selectedKind: kind, movies: page.movies));
+      emit(
+        MoviesCatalogLoaded(
+          selectedKind: kind,
+          movies: page.movies,
+          page: page.page,
+          totalPages: page.totalPages,
+        ),
+      );
     } catch (e, st) {
       emit(
         MoviesCatalogFailure(
@@ -50,7 +82,14 @@ class MoviesCatalogCubit extends Cubit<MoviesCatalogState> {
       final page = await _syncMovieCatalogPage.invoke(
         MovieCatalogPageInput(kind: kind, page: 1),
       );
-      emit(MoviesCatalogLoaded(selectedKind: kind, movies: page.movies));
+      emit(
+        MoviesCatalogLoaded(
+          selectedKind: kind,
+          movies: page.movies,
+          page: page.page,
+          totalPages: page.totalPages,
+        ),
+      );
     } catch (e, st) {
       emit(
         MoviesCatalogFailure(
