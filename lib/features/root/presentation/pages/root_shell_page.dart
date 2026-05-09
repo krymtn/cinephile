@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/build_context.dart';
+import '../../../movies/presentation/movies_providers.dart';
 import '../../../movies/presentation/pages/movies_page.dart';
 import '../../domain/root_tab.dart';
-import '../widgets/root_bottom_nav_bar.dart';
 
 /// Root navigation shell hosting Movies, Search, and My list tabs.
 ///
-/// Selected tab state is driven by a [ValueNotifier] and [ValueListenableBuilder].
-/// We do **not** use Bloc/Cubit here: changing tabs is transient UI state with no
-/// business rules, persistence, or coordination across features. Introducing Bloc
-/// would mean extra types and tests for logic that assigns one enum field—use Bloc
-/// when tab changes trigger side effects (analytics, auth gates, restoring deep
-/// links) or when multiple distant widgets must react to the same navigation state.
+/// Uses a [TabController] + [TabBarView] so each tab keeps its own subtree when
+/// switching. Each tab wraps its content in a [Navigator] so pushes (e.g. movie
+/// lists) stay scoped to that tab.
 class RootShellPage extends StatefulWidget {
   const RootShellPage({super.key});
 
@@ -20,44 +17,120 @@ class RootShellPage extends StatefulWidget {
   State<RootShellPage> createState() => _RootShellPageState();
 }
 
-class _RootShellPageState extends State<RootShellPage> {
-  late final ValueNotifier<RootTab> _selectedTab;
+class _RootShellPageState extends State<RootShellPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(debugLabel: 'nav_movies'),
+    GlobalKey<NavigatorState>(debugLabel: 'nav_search'),
+    GlobalKey<NavigatorState>(debugLabel: 'nav_my_list'),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _selectedTab = ValueNotifier(RootTab.movies);
+    _tabController = TabController(
+      length: RootTab.values.length,
+      vsync: this,
+      initialIndex: RootTab.movies.index,
+    );
+  }
+
+  Future<void> _handlePopInvoked(bool didPop, dynamic result) async {
+    if (didPop) return;
+    final nav = _navigatorKeys[_tabController.index].currentState;
+    if (nav != null && await nav.maybePop()) {
+      return;
+    }
   }
 
   @override
   void dispose() {
-    _selectedTab.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<RootTab>(
-      valueListenable: _selectedTab,
-      builder: (context, selected, _) {
-        return Scaffold(
-          body: IndexedStack(
-            index: selected.index,
-            children: const [
-              MoviesPage(),
-              _SearchTabPlaceholder(),
-              _MyListTabPlaceholder(),
-            ],
-          ),
-          bottomNavigationBar: RootBottomNavBar(
-            selected: selected,
-            onSelect: (tab) {
-              _selectedTab.value = tab;
-            },
-          ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) =>
+          _handlePopInvoked(didPop, result),
+      child: Scaffold(
+        body: TabBarView(
+          controller: _tabController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            _tabNavigator(RootTab.movies),
+            _tabNavigator(RootTab.search),
+            _tabNavigator(RootTab.myList),
+          ],
+        ),
+        bottomNavigationBar: AnimatedBuilder(
+          animation: _tabController,
+          builder: (context, _) {
+            final l10n = context.l10n;
+            return NavigationBar(
+              selectedIndex: _tabController.index,
+              onDestinationSelected: _tabController.animateTo,
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+              destinations: [
+                NavigationDestination(
+                  icon: const Icon(Icons.movie_outlined),
+                  selectedIcon: const Icon(Icons.movie_rounded),
+                  label: l10n.navMovies,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.search_rounded),
+                  selectedIcon: const Icon(Icons.search),
+                  label: l10n.navSearch,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.format_list_bulleted_rounded),
+                  selectedIcon: const Icon(Icons.list_alt_rounded),
+                  label: l10n.navMyList,
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _tabNavigator(RootTab tab) {
+    final navigator = Navigator(
+      key: _navigatorKeys[tab.index],
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (context) => _RootTabRoot(tab: tab),
         );
       },
     );
+
+    // Mount feature-level providers above each tab's Navigator so all routes
+    // pushed within the tab inherit the same repository/use-case instances.
+    return switch (tab) {
+      RootTab.movies => MoviesProviders(child: navigator),
+      _ => navigator,
+    };
+  }
+}
+
+class _RootTabRoot extends StatelessWidget {
+  const _RootTabRoot({required this.tab});
+
+  final RootTab tab;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (tab) {
+      RootTab.movies => const MoviesPage(),
+      RootTab.search => const _SearchTabPlaceholder(),
+      RootTab.myList => const _MyListTabPlaceholder(),
+    };
   }
 }
 

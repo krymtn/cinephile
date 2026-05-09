@@ -83,6 +83,7 @@ Future<void> main() async {
 
   final networkClient = NetworkClient(dio);
   final database = await db.database;
+  debugPrint('main: SQLite database path: ${database.path}');
 
   debugPrint('main: NetworkClient initialized successfully');
 
