@@ -135,6 +135,33 @@ abstract final class AppTheme {
         space: 1,
         thickness: 1,
       ),
+      navigationBarTheme: NavigationBarThemeData(
+        height: 72,
+        backgroundColor: scheme.surface,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        indicatorColor: extra.accentDim,
+        indicatorShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+        ),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          final base = textTheme.labelSmall?.copyWith(
+            letterSpacing: 0.2,
+            fontWeight: FontWeight.w600,
+          );
+          if (states.contains(WidgetState.selected)) {
+            return base?.copyWith(color: scheme.primary);
+          }
+          return base?.copyWith(color: scheme.onSurfaceVariant);
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final color = states.contains(WidgetState.selected)
+              ? scheme.primary
+              : scheme.onSurfaceVariant;
+          return IconThemeData(color: color, size: 24);
+        }),
+      ),
     );
   }
 }
