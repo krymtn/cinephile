@@ -19,11 +19,7 @@ import '../cubits/cubits.dart';
 import '../widgets/padding/movie_cell.dart';
 
 class MoviesCatalogListPage extends StatelessWidget {
-  const MoviesCatalogListPage({
-    super.key,
-    required this.kind,
-    this.title,
-  });
+  const MoviesCatalogListPage({super.key, required this.kind, this.title});
 
   final MovieCatalogKind kind;
   final String? title;
@@ -87,10 +83,7 @@ class MoviesCatalogListPage extends StatelessWidget {
 }
 
 class _MoviesCatalogListScaffold extends StatefulWidget {
-  const _MoviesCatalogListScaffold({
-    required this.title,
-    required this.colors,
-  });
+  const _MoviesCatalogListScaffold({required this.title, required this.colors});
 
   final String title;
   final AppThemeColors colors;
@@ -100,7 +93,8 @@ class _MoviesCatalogListScaffold extends StatefulWidget {
       _MoviesCatalogListScaffoldState();
 }
 
-class _MoviesCatalogListScaffoldState extends State<_MoviesCatalogListScaffold> {
+class _MoviesCatalogListScaffoldState
+    extends State<_MoviesCatalogListScaffold> {
   late final ScrollController _controller = ScrollController()
     ..addListener(_onScroll);
 
@@ -144,7 +138,7 @@ class _MoviesCatalogListScaffoldState extends State<_MoviesCatalogListScaffold> 
                 controller: _controller,
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
                 itemCount: movies.length + (isLoadingMore ? 1 : 0),
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   if (index >= movies.length) {
                     return const Padding(
@@ -156,35 +150,34 @@ class _MoviesCatalogListScaffoldState extends State<_MoviesCatalogListScaffold> 
                 },
               ),
             MoviesCatalogFailure() => ListView(
-                controller: _controller,
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-                children: [
-                  MovieCellSkeleton(colors: widget.colors),
-                  const SizedBox(height: 12),
-                  MovieCellSkeleton(colors: widget.colors),
-                  const SizedBox(height: 12),
-                  MovieCellSkeleton(colors: widget.colors),
-                ],
-              ),
+              controller: _controller,
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+              children: [
+                MovieCellSkeleton(colors: widget.colors),
+                const SizedBox(height: 12),
+                MovieCellSkeleton(colors: widget.colors),
+                const SizedBox(height: 12),
+                MovieCellSkeleton(colors: widget.colors),
+              ],
+            ),
             _ => ListView(
-                controller: _controller,
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-                children: [
-                  MovieCellSkeleton(colors: widget.colors),
-                  const SizedBox(height: 12),
-                  MovieCellSkeleton(colors: widget.colors),
-                  const SizedBox(height: 12),
-                  MovieCellSkeleton(colors: widget.colors),
-                  const SizedBox(height: 12),
-                  MovieCellSkeleton(colors: widget.colors),
-                  const SizedBox(height: 12),
-                  MovieCellSkeleton(colors: widget.colors),
-                ],
-              ),
+              controller: _controller,
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+              children: [
+                MovieCellSkeleton(colors: widget.colors),
+                const SizedBox(height: 12),
+                MovieCellSkeleton(colors: widget.colors),
+                const SizedBox(height: 12),
+                MovieCellSkeleton(colors: widget.colors),
+                const SizedBox(height: 12),
+                MovieCellSkeleton(colors: widget.colors),
+                const SizedBox(height: 12),
+                MovieCellSkeleton(colors: widget.colors),
+              ],
+            ),
           };
         },
       ),
     );
   }
 }
-

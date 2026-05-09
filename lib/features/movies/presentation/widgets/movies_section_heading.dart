@@ -32,10 +32,7 @@ class MoviesSectionHeading extends StatelessWidget {
             ),
           ),
           if (onSeeAll != null)
-            TextButton(
-              onPressed: onSeeAll,
-              child: Text(seeAllText),
-            ),
+            TextButton(onPressed: onSeeAll, child: Text(seeAllText)),
         ],
       ),
     );

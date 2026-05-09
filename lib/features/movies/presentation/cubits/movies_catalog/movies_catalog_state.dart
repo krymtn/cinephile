@@ -55,4 +55,3 @@ final class MoviesCatalogFailure extends MoviesCatalogState {
   final Object error;
   final StackTrace? stackTrace;
 }
-

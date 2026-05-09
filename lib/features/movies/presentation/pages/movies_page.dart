@@ -130,7 +130,9 @@ class _MoviesPageState extends State<MoviesPage> {
                           return MoviesCatalogKindChips(
                             selected: state.selectedKind,
                             onSelected: (kind) {
-                              context.read<MoviesCatalogCubit>().selectKind(kind);
+                              context.read<MoviesCatalogCubit>().selectKind(
+                                kind,
+                              );
                             },
                           );
                         },
@@ -163,35 +165,34 @@ class _MoviesPageState extends State<MoviesPage> {
                   builder: (context, state) {
                     return switch (state) {
                       MoviesCatalogLoaded(:final movies) => SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => Padding(
-                              padding: EdgeInsets.only(
-                                bottom: index < movies.length - 1 ? 12 : 0,
-                              ),
-                              child: MovieCell(movie: movies[index]),
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index < movies.length - 1 ? 12 : 0,
                             ),
-                            childCount: movies.length,
+                            child: MovieCell(movie: movies[index]),
                           ),
+                          childCount: movies.length,
                         ),
+                      ),
                       MoviesCatalogFailure() => SliverList(
-                          delegate: SliverChildListDelegate.fixed([
-                            MovieCellSkeleton(colors: colors),
-                          ]),
-                        ),
+                        delegate: SliverChildListDelegate.fixed([
+                          MovieCellSkeleton(colors: colors),
+                        ]),
+                      ),
                       _ => SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => Padding(
-                              padding: EdgeInsets.only(
-                                bottom: index < _catalogSkeletonItemCount - 1
-                                    ? 12
-                                    : 0,
-                              ),
-                              child:
-                                  MovieCellSkeleton(colors: colors),
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index < _catalogSkeletonItemCount - 1
+                                  ? 12
+                                  : 0,
                             ),
-                            childCount: _catalogSkeletonItemCount,
+                            child: MovieCellSkeleton(colors: colors),
                           ),
+                          childCount: _catalogSkeletonItemCount,
                         ),
+                      ),
                     };
                   },
                 ),

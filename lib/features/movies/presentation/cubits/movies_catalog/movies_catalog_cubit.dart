@@ -66,13 +66,7 @@ class MoviesCatalogCubit extends Cubit<MoviesCatalogState> {
         ),
       );
     } catch (e, st) {
-      emit(
-        MoviesCatalogFailure(
-          selectedKind: kind,
-          error: e,
-          stackTrace: st,
-        ),
-      );
+      emit(MoviesCatalogFailure(selectedKind: kind, error: e, stackTrace: st));
     }
   }
 
@@ -91,14 +85,7 @@ class MoviesCatalogCubit extends Cubit<MoviesCatalogState> {
         ),
       );
     } catch (e, st) {
-      emit(
-        MoviesCatalogFailure(
-          selectedKind: kind,
-          error: e,
-          stackTrace: st,
-        ),
-      );
+      emit(MoviesCatalogFailure(selectedKind: kind, error: e, stackTrace: st));
     }
   }
 }
-
