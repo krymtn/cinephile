@@ -1,67 +1,53 @@
 import '../../../../core/data/json_dto.dart';
+import '../../../../core/data/media_list_dto.dart';
 import '../../../../core/data/paged_dto.dart';
 
 /// Wire-format representation of a single movie returned by TMDB list and
 /// detail endpoints (e.g. `/movie/popular`, `/movie/{id}`).
 ///
+/// Shared list keys live on [MediaListDto]; movie-only keys stay here.
+///
 /// Stays close to the JSON: snake_case keys, raw date strings. Conversion to
-/// the domain `Movie` (with parsed [DateTime]s and stricter null handling)
+/// the domain [Movie] (with parsed [DateTime]s and stricter null handling)
 /// happens in the mappers layer, not here.
 ///
 /// Deserialization lives in [MovieSerializer] (use the [movieSerializer]
 /// constant), **not** in a `factory MovieDto.fromJson` on this class.
-class MovieDto implements JsonDto {
+class MovieDto extends MediaListDto implements JsonDto {
   const MovieDto({
-    required this.id,
+    required super.id,
     required this.title,
     this.originalTitle,
-    this.originalLanguage,
-    this.overview,
+    super.originalLanguage,
+    super.overview,
     this.releaseDate,
-    this.posterPath,
-    this.backdropPath,
-    this.genreIds = const [],
-    this.popularity = 0,
-    this.voteAverage = 0,
-    this.voteCount = 0,
+    super.posterPath,
+    super.backdropPath,
+    super.genreIds = const [],
+    super.popularity = 0,
+    super.voteAverage = 0,
+    super.voteCount = 0,
     this.adult = false,
     this.video = false,
   });
 
-  final int id;
   final String title;
   final String? originalTitle;
-  final String? originalLanguage;
-  final String? overview;
 
   /// Raw `YYYY-MM-DD` string from TMDB. Empty strings appear for unscheduled
   /// releases — preserved as-is here; the mapper turns them into `null`.
   final String? releaseDate;
 
-  final String? posterPath;
-  final String? backdropPath;
-  final List<int> genreIds;
-  final double popularity;
-  final double voteAverage;
-  final int voteCount;
   final bool adult;
   final bool video;
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      ...mediaListFieldsToJson(),
       'title': title,
       'original_title': originalTitle,
-      'original_language': originalLanguage,
-      'overview': overview,
       'release_date': releaseDate,
-      'poster_path': posterPath,
-      'backdrop_path': backdropPath,
-      'genre_ids': genreIds,
-      'popularity': popularity,
-      'vote_average': voteAverage,
-      'vote_count': voteCount,
       'adult': adult,
       'video': video,
     };
@@ -74,28 +60,23 @@ class MovieSerializer implements Serializer<MovieDto> {
 
   @override
   MovieDto fromJson(Map<String, dynamic> json) {
+    final shared = parseMediaListJson(json);
     return MovieDto(
-      id: json['id'] as int,
+      id: shared.id,
       title: json['title'] as String,
       originalTitle: json['original_title'] as String?,
-      originalLanguage: json['original_language'] as String?,
-      overview: json['overview'] as String?,
+      originalLanguage: shared.originalLanguage,
+      overview: shared.overview,
       releaseDate: json['release_date'] as String?,
-      posterPath: json['poster_path'] as String?,
-      backdropPath: json['backdrop_path'] as String?,
-      genreIds:
-          (json['genre_ids'] as List?)?.whereType<int>().toList() ?? const [],
-      popularity: _toDouble(json['popularity']),
-      voteAverage: _toDouble(json['vote_average']),
-      voteCount: (json['vote_count'] as num?)?.toInt() ?? 0,
+      posterPath: shared.posterPath,
+      backdropPath: shared.backdropPath,
+      genreIds: shared.genreIds,
+      popularity: shared.popularity,
+      voteAverage: shared.voteAverage,
+      voteCount: shared.voteCount,
       adult: json['adult'] as bool? ?? false,
       video: json['video'] as bool? ?? false,
     );
-  }
-
-  static double _toDouble(dynamic value) {
-    if (value is num) return value.toDouble();
-    return 0;
   }
 }
 
