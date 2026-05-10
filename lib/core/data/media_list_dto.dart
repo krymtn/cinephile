@@ -40,7 +40,7 @@ abstract class MediaListDto {
   }
 }
 
-/// Parsed block used by [MovieSerializer] and future TV serializers.
+/// Parsed block reused by per-resource serializers (movies, TV, …).
 final class ParsedMediaListJson {
   const ParsedMediaListJson({
     required this.id,
