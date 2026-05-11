@@ -5,7 +5,7 @@ import '../../../movies/presentation/movies_providers.dart';
 import '../../../movies/presentation/pages/movies_page.dart';
 import '../../domain/root_tab.dart';
 
-/// Root navigation shell hosting Movies, Search, and My list tabs.
+/// Root navigation shell hosting Movies, TV series, Search, and My list tabs.
 ///
 /// Uses a [TabController] + [TabBarView] so each tab keeps its own subtree when
 /// switching. Each tab wraps its content in a [Navigator] so pushes (e.g. movie
@@ -23,9 +23,10 @@ class _RootShellPageState extends State<RootShellPage>
 
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(debugLabel: 'nav_movies'),
+    GlobalKey<NavigatorState>(debugLabel: 'nav_tv_series'),
     GlobalKey<NavigatorState>(debugLabel: 'nav_search'),
     GlobalKey<NavigatorState>(debugLabel: 'nav_my_list'),
-  ];
+  ]; // Index order matches [RootTab] (movies, tvSeries, search, myList).
 
   @override
   void initState() {
@@ -63,6 +64,7 @@ class _RootShellPageState extends State<RootShellPage>
           physics: const NeverScrollableScrollPhysics(),
           children: [
             _tabNavigator(RootTab.movies),
+            _tabNavigator(RootTab.tvSeries),
             _tabNavigator(RootTab.search),
             _tabNavigator(RootTab.myList),
           ],
@@ -80,6 +82,11 @@ class _RootShellPageState extends State<RootShellPage>
                   icon: const Icon(Icons.movie_outlined),
                   selectedIcon: const Icon(Icons.movie_rounded),
                   label: l10n.navMovies,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.tv_outlined),
+                  selectedIcon: const Icon(Icons.tv_rounded),
+                  label: l10n.navTvSeries,
                 ),
                 NavigationDestination(
                   icon: const Icon(Icons.search_rounded),
@@ -128,9 +135,19 @@ class _RootTabRoot extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (tab) {
       RootTab.movies => const MoviesPage(),
+      RootTab.tvSeries => const _TvSeriesTabPlaceholder(),
       RootTab.search => const _SearchTabPlaceholder(),
       RootTab.myList => const _MyListTabPlaceholder(),
     };
+  }
+}
+
+class _TvSeriesTabPlaceholder extends StatelessWidget {
+  const _TvSeriesTabPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text(context.l10n.navTvSeries));
   }
 }
 

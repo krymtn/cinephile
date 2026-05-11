@@ -1,2 +1,4 @@
 /// Primary destinations shown in the app root tab bar.
-enum RootTab { movies, search, myList }
+///
+/// Order matches [NavigationBar] destinations: movies, TV, search, my list.
+enum RootTab { movies, tvSeries, search, myList }

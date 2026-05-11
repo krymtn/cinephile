@@ -42,6 +42,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get navMovies => 'Filmler';
 
   @override
+  String get navTvSeries => 'Diziler';
+
+  @override
   String get navSearch => 'Arama';
 
   @override
