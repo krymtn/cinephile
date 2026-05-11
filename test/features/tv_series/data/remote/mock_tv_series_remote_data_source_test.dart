@@ -35,7 +35,9 @@ void main() {
 
   group('MockTvSeriesRemoteDataSource airing today', () {
     test('parses first show', () async {
-      final page = await dataSource.fetchCatalog(TvSeriesCatalogKind.airingToday);
+      final page = await dataSource.fetchCatalog(
+        TvSeriesCatalogKind.airingToday,
+      );
 
       expect(page.results.first.id, 1396);
       expect(page.results.first.name, 'Breaking Bad');

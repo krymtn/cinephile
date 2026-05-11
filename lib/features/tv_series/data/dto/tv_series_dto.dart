@@ -82,4 +82,6 @@ class TvSeriesSerializer implements Serializer<TvSeriesDto> {
 const tvSeriesSerializer = TvSeriesSerializer();
 
 /// Page serializer for `/tv/{airing_today,on_the_air,popular,top_rated}`.
-const pagedTvSeriesSerializer = PagedSerializer<TvSeriesDto>(tvSeriesSerializer);
+const pagedTvSeriesSerializer = PagedSerializer<TvSeriesDto>(
+  tvSeriesSerializer,
+);
