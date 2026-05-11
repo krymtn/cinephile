@@ -42,6 +42,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navMovies => 'Movies';
 
   @override
+  String get navTvSeries => 'TV series';
+
+  @override
   String get navSearch => 'Search';
 
   @override

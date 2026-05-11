@@ -164,6 +164,12 @@ abstract class AppLocalizations {
   /// **'Movies'**
   String get navMovies;
 
+  /// Bottom navigation tab label for the TV series home section.
+  ///
+  /// In en, this message translates to:
+  /// **'TV series'**
+  String get navTvSeries;
+
   /// Bottom navigation tab label for search.
   ///
   /// In en, this message translates to:

@@ -14,6 +14,10 @@
   "@navMovies": {
     "description": "Bottom navigation tab label for the movies home section."
   },
+  "navTvSeries": "Diziler",
+  "@navTvSeries": {
+    "description": "Bottom navigation tab label for the TV series home section."
+  },
   "navSearch": "Arama",
   "@navSearch": {
     "description": "Bottom navigation tab label for search."

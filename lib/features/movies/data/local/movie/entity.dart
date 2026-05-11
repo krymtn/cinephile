@@ -1,8 +1,11 @@
 import '../../../../../core/database/models/base_entity.dart';
+import '../../../../../core/database/models/media_list_entity_payload.dart';
 import 'schema.dart';
 
 /// Cached TMDB summary row in [MoviesTable.name].
-class MovieEntity extends BaseEntity {
+///
+/// Payload columns align with [MediaListEntityPayload] / domain [Media].
+class MovieEntity extends BaseEntity implements MediaListEntityPayload {
   MovieEntity({
     required this.id,
     required this.title,
@@ -24,18 +27,30 @@ class MovieEntity extends BaseEntity {
   @override
   final String id;
 
+  @override
   final String title;
+  @override
   final String? originalTitle;
+  @override
   final String? originalLanguage;
+  @override
   final String? overview;
   final String? releaseDate;
+  @override
   final String? posterPath;
+  @override
   final String? backdropPath;
+  @override
   final double popularity;
+  @override
   final double voteAverage;
+  @override
   final int voteCount;
   final bool adult;
   final bool video;
+
+  @override
+  String? get primaryDateRaw => releaseDate;
 
   @override
   Map<String, dynamic> toMap() {

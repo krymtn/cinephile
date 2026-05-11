@@ -1,0 +1,22 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "backdrop_path": "/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg",
+      "first_air_date": "2023-01-15",
+      "genre_ids": [18],
+      "id": 100088,
+      "name": "The Last of Us",
+      "origin_country": ["US"],
+      "original_language": "en",
+      "original_name": "The Last of Us",
+      "overview": "Twenty years after modern civilization has been destroyed, Joel is hired to smuggle Ellie out of a quarantine zone.",
+      "popularity": 636.128,
+      "poster_path": "/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg",
+      "vote_average": 8.6,
+      "vote_count": 5000
+    }
+  ],
+  "total_pages": 88,
+  "total_results": 1750
+}
