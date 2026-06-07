@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../theme/theme_extension.dart';
 import '../../domain/movie_catalog_kind.dart';
 import '../../domain/use_cases/use_cases.dart';
 import '../cubits/cubits.dart';
@@ -15,18 +14,13 @@ class MoviesCatalogListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appThemeColors;
-
     return BlocProvider(
       create: (context) => MoviesCatalogCubit(
         loadMovieCatalogPage: context.read<LoadMovieCatalogPage>(),
         syncMovieCatalogPage: context.read<SyncMovieCatalogPage>(),
         initialKind: kind,
       )..loadInitial(),
-      child: _MoviesCatalogListScaffold(
-        title: title ?? _titleFor(kind),
-        colors: colors,
-      ),
+      child: _MoviesCatalogListScaffold(title: title ?? _titleFor(kind)),
     );
   }
 
@@ -41,10 +35,9 @@ class MoviesCatalogListPage extends StatelessWidget {
 }
 
 class _MoviesCatalogListScaffold extends StatefulWidget {
-  const _MoviesCatalogListScaffold({required this.title, required this.colors});
+  const _MoviesCatalogListScaffold({required this.title});
 
   final String title;
-  final AppThemeColors colors;
 
   @override
   State<_MoviesCatalogListScaffold> createState() =>
@@ -110,27 +103,27 @@ class _MoviesCatalogListScaffoldState
             MoviesCatalogFailure() => ListView(
               controller: _controller,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-              children: [
-                MovieCellSkeleton(colors: widget.colors),
-                const SizedBox(height: 12),
-                MovieCellSkeleton(colors: widget.colors),
-                const SizedBox(height: 12),
-                MovieCellSkeleton(colors: widget.colors),
+              children: const [
+                MovieCellSkeleton(),
+                SizedBox(height: 12),
+                MovieCellSkeleton(),
+                SizedBox(height: 12),
+                MovieCellSkeleton(),
               ],
             ),
             _ => ListView(
               controller: _controller,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-              children: [
-                MovieCellSkeleton(colors: widget.colors),
-                const SizedBox(height: 12),
-                MovieCellSkeleton(colors: widget.colors),
-                const SizedBox(height: 12),
-                MovieCellSkeleton(colors: widget.colors),
-                const SizedBox(height: 12),
-                MovieCellSkeleton(colors: widget.colors),
-                const SizedBox(height: 12),
-                MovieCellSkeleton(colors: widget.colors),
+              children: const [
+                MovieCellSkeleton(),
+                SizedBox(height: 12),
+                MovieCellSkeleton(),
+                SizedBox(height: 12),
+                MovieCellSkeleton(),
+                SizedBox(height: 12),
+                MovieCellSkeleton(),
+                SizedBox(height: 12),
+                MovieCellSkeleton(),
               ],
             ),
           };

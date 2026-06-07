@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/build_context.dart';
-import '../../../../theme/theme_extension.dart';
 import '../../../root/presentation/widgets/app_settings_sheet.dart';
 import '../../domain/movie_catalog_kind.dart';
 import '../../domain/use_cases/use_cases.dart';
@@ -26,7 +25,6 @@ class _MoviesPageState extends State<MoviesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appThemeColors;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -134,7 +132,7 @@ class _MoviesPageState extends State<MoviesPage> {
                     ),
                     MoviesCatalogFailure() => SliverList(
                       delegate: SliverChildListDelegate.fixed([
-                        MovieCellSkeleton(colors: colors),
+                        const MovieCellSkeleton(),
                       ]),
                     ),
                     _ => SliverList(
@@ -145,7 +143,7 @@ class _MoviesPageState extends State<MoviesPage> {
                                 ? 12
                                 : 0,
                           ),
-                          child: MovieCellSkeleton(colors: colors),
+                          child: const MovieCellSkeleton(),
                         ),
                         childCount: _catalogSkeletonItemCount,
                       ),

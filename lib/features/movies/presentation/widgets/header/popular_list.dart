@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../../core/presentation/widgets/cells/media_thumbnail_cell.dart';
 import '../../../../../theme/theme_extension.dart';
 import '../../../domain/movie.dart';
-import 'movie_poster_cell.dart';
+import '../../mappers/movie_tile_display.dart';
 
 /// Horizontal list for the always-on **popular** rail.
 class MoviesPopularList extends StatelessWidget {
@@ -12,6 +13,9 @@ class MoviesPopularList extends StatelessWidget {
   final List<Movie> movies;
   final void Function(Movie movie)? onMovieTap;
 
+  // Derived from movieCarouselDisplay: width 132, aspectRatio 2/3 → height 198.
+  static const double _railHeight = 198;
+
   @override
   Widget build(BuildContext context) {
     if (movies.isEmpty) {
@@ -19,7 +23,7 @@ class MoviesPopularList extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 188,
+      height: _railHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.zero,
@@ -27,8 +31,8 @@ class MoviesPopularList extends StatelessWidget {
         separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           final movie = movies[index];
-          return MoviePosterCell(
-            movie: movie,
+          return MediaThumbnailCell(
+            display: movieCarouselDisplay(movie),
             onTap: onMovieTap != null ? () => onMovieTap!(movie) : null,
           );
         },
@@ -43,8 +47,8 @@ class MoviesPopularListSkeleton extends StatelessWidget {
 
   final int itemCount;
 
-  static const double _cardWidth = 120;
-  static const double _cardHeight = 180;
+  static const double _cardWidth = 132;
+  static const double _cardHeight = 198;
   static const double _radius = 14;
 
   @override
