@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../core/presentation/widgets/cells/media_thumbnail_cell.dart';
-import '../../../../../theme/theme_extension.dart';
-import '../../../domain/movie.dart';
-import '../../mappers/movie_tile_display.dart';
+import '../../../../core/presentation/widgets/cells/media_thumbnail_cell.dart';
+import '../../../../theme/theme_extension.dart';
+import '../../domain/tv_series.dart';
+import '../mappers/tv_tile_display.dart';
 
-/// Horizontal list for the always-on **popular** rail.
-class MoviesPopularList extends StatelessWidget {
-  const MoviesPopularList({super.key, required this.movies, this.onMovieTap});
+/// Horizontal landscape rail for a TV catalog section (backdrop tiles, 16/9).
+class TvSeriesLandscapeRail extends StatelessWidget {
+  const TvSeriesLandscapeRail({
+    super.key,
+    required this.series,
+    this.onSeriesTap,
+  });
 
-  final List<Movie> movies;
-  final void Function(Movie movie)? onMovieTap;
+  final List<TvSeries> series;
+  final void Function(TvSeries series)? onSeriesTap;
 
-  // Derived from movieCarouselDisplay: width 132, aspectRatio 2/3 → height 198.
-  static const double _railHeight = 198;
+  // Derived from tvCarouselDisplay: width 168, aspectRatio 16/9 → height 94.5.
+  static const double _railHeight = 94.5;
 
   @override
   Widget build(BuildContext context) {
-    if (movies.isEmpty) {
-      return const MoviesPopularListSkeleton();
+    if (series.isEmpty) {
+      return const TvSeriesLandscapeRailSkeleton();
     }
 
     return SizedBox(
@@ -27,13 +31,13 @@ class MoviesPopularList extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.zero,
-        itemCount: movies.length,
+        itemCount: series.length,
         separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
-          final movie = movies[index];
+          final show = series[index];
           return MediaThumbnailCell(
-            display: movieCarouselDisplay(movie),
-            onTap: onMovieTap != null ? () => onMovieTap!(movie) : null,
+            display: tvCarouselDisplay(show),
+            onTap: onSeriesTap != null ? () => onSeriesTap!(show) : null,
           );
         },
       ),
@@ -41,14 +45,14 @@ class MoviesPopularList extends StatelessWidget {
   }
 }
 
-/// Horizontal list placeholder for the always-on **popular** rail.
-class MoviesPopularListSkeleton extends StatelessWidget {
-  const MoviesPopularListSkeleton({super.key, this.itemCount = 6});
+/// Shimmer placeholder for [TvSeriesLandscapeRail].
+class TvSeriesLandscapeRailSkeleton extends StatelessWidget {
+  const TvSeriesLandscapeRailSkeleton({super.key, this.itemCount = 6});
 
   final int itemCount;
 
-  static const double _cardWidth = 132;
-  static const double _cardHeight = 198;
+  static const double _cardWidth = 168;
+  static const double _cardHeight = 94.5;
   static const double _radius = 14;
 
   @override
