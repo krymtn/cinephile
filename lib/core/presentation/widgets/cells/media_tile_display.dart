@@ -57,18 +57,12 @@ class MediaTileDisplay {
           width == other.width;
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        title,
-        badge,
-        imageUrl,
-        artKind,
-        aspectRatio,
-        width,
-      );
+  int get hashCode =>
+      Object.hash(id, title, badge, imageUrl, artKind, aspectRatio, width);
 
   @override
-  String toString() => 'MediaTileDisplay('
+  String toString() =>
+      'MediaTileDisplay('
       'id: $id, title: $title, badge: $badge, '
       'artKind: $artKind, aspectRatio: $aspectRatio, width: $width)';
 }

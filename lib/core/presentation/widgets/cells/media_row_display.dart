@@ -48,13 +48,13 @@ class MediaRowDisplay {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        subtitle,
-        trailing,
-        imageUrl,
-        artKind,
-        thumbWidth,
-        thumbHeight,
-      );
+    id,
+    title,
+    subtitle,
+    trailing,
+    imageUrl,
+    artKind,
+    thumbWidth,
+    thumbHeight,
+  );
 }

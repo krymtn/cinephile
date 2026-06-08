@@ -8,11 +8,7 @@ import 'media_tile_display.dart';
 ///
 /// Owns the image async/error state so [MediaThumbnailCell] stays stateless.
 class MediaArt extends StatelessWidget {
-  const MediaArt({
-    super.key,
-    required this.imageUrl,
-    required this.artKind,
-  });
+  const MediaArt({super.key, required this.imageUrl, required this.artKind});
 
   final String? imageUrl;
   final MediaArtKind artKind;

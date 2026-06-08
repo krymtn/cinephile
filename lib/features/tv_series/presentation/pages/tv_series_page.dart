@@ -37,7 +37,8 @@ class TvSeriesPage extends StatelessWidget {
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
               itemCount: tvHomeSectionKinds.length,
-              separatorBuilder: (_, _) => const SizedBox(height: _sectionSpacing),
+              separatorBuilder: (_, _) =>
+                  const SizedBox(height: _sectionSpacing),
               itemBuilder: (context, index) {
                 final kind = tvHomeSectionKinds[index];
                 final sectionState =

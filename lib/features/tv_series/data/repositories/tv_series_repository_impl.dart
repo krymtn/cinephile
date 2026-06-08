@@ -26,10 +26,7 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
   }
 
   @override
-  Future<PagedTvSeries> syncCatalog(
-    TvSeriesCatalogKind kind, {
-    int page = 1,
-  }) {
+  Future<PagedTvSeries> syncCatalog(TvSeriesCatalogKind kind, {int page = 1}) {
     return fetchCatalog(kind, page: page);
   }
 }

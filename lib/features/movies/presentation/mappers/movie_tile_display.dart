@@ -29,8 +29,7 @@ MediaRowDisplay movieRowDisplay(Movie movie) {
   );
 }
 
-String? scoreLabel(double score) =>
-    score > 0 ? score.toStringAsFixed(1) : null;
+String? scoreLabel(double score) => score > 0 ? score.toStringAsFixed(1) : null;
 
 String _movieSubtitle(Movie movie) {
   final year = movie.releaseYear;

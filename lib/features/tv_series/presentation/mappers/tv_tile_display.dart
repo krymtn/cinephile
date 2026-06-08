@@ -13,7 +13,8 @@ MediaTileDisplay tvCarouselDisplay(TvSeries series) {
     id: series.id,
     title: series.title,
     badge: scoreLabel(series.voteAverage),
-    imageUrl: TmdbImages.backdrop(series.backdropPath) ??
+    imageUrl:
+        TmdbImages.backdrop(series.backdropPath) ??
         TmdbImages.poster(series.posterPath),
     artKind: MediaArtKind.backdrop,
     aspectRatio: 16 / 9,
@@ -33,8 +34,7 @@ MediaRowDisplay tvRowDisplay(TvSeries series) {
   );
 }
 
-String? scoreLabel(double score) =>
-    score > 0 ? score.toStringAsFixed(1) : null;
+String? scoreLabel(double score) => score > 0 ? score.toStringAsFixed(1) : null;
 
 String _tvSubtitle(TvSeries series) {
   final year = series.firstAirYear;
