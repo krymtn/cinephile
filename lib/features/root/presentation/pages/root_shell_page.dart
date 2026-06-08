@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/extensions/build_context.dart';
 import '../../../movies/presentation/movies_providers.dart';
 import '../../../movies/presentation/pages/movies_page.dart';
+import '../../../tv_series/presentation/pages/tv_series_page.dart';
+import '../../../tv_series/presentation/tv_series_providers.dart';
 import '../../domain/root_tab.dart';
 
 /// Root navigation shell hosting Movies, TV series, Search, and My list tabs.
@@ -121,6 +123,7 @@ class _RootShellPageState extends State<RootShellPage>
     // pushed within the tab inherit the same repository/use-case instances.
     return switch (tab) {
       RootTab.movies => MoviesProviders(child: navigator),
+      RootTab.tvSeries => TvSeriesProviders(child: navigator),
       _ => navigator,
     };
   }
@@ -135,19 +138,10 @@ class _RootTabRoot extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (tab) {
       RootTab.movies => const MoviesPage(),
-      RootTab.tvSeries => const _TvSeriesTabPlaceholder(),
+      RootTab.tvSeries => const TvSeriesPage(),
       RootTab.search => const _SearchTabPlaceholder(),
       RootTab.myList => const _MyListTabPlaceholder(),
     };
-  }
-}
-
-class _TvSeriesTabPlaceholder extends StatelessWidget {
-  const _TvSeriesTabPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text(context.l10n.navTvSeries));
   }
 }
 
